@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from jedi.plugins import *
+from jedi.plugins import django
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -147,3 +150,7 @@ LOCALE_PATHS = [BASE_DIR / "locale"]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
+LOGIN_URL = 'customer:login_page'
+LOGIN_REDIRECT_URL = 'customer:profile_detail'
