@@ -21,4 +21,6 @@ urlpatterns = [
     path('customer/', include('customer.urls')),
     path('core/', include('core.urls')),
     # path('accounts/', include('django.contrib.auth.urls')),
+    path('core/', include('product.urls')),
+
 ]

@@ -96,10 +96,8 @@
 
     <footer>
         <div class="footer-content">
-            <h3>Clothing Store</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, architecto corporis cupiditate eaque
-                et hic magni quod ullam. Aliquam asperiores, consequatur enim fugit molestiae necessitatibus odio rem
-                ullam unde voluptatum?</p>
+            <h3>{% trans 'Clothing Store' %}</h3>
+            <p>{% trans "Our store, after the successful experience of online stores, entered the field of fashion, clothing and lifestyle in a specialized way to repeat a sweet experience in a new format. In our store you can find everything related to fashion and clothing, from women's clothing, men's clothing and children's clothing to bags and shoes with special discounts at auctions, and simply buy a complete set of the latest reputable brands." %}</p>
             <ul class="socials">
                 <li><a href="#"><i class="fa fa-instagram"></i></a></li>
                 <li><a href="#"><i class="fa fa-telegram"></i></a></li>
@@ -108,7 +106,7 @@
                 <li><a href="#"><i class="fa fa-youtube-square"></i></a></li>
             </ul>
             <div class="footer-bottom">
-                <p>copyright &copy;2021 Clothing Store. designed by <span>smhtb</span></p>
+                <p>copyright &copy;2021 Clothing Store. designed by <span><a href="#">smhtb</a></span></p>
             </div>
         </div>
     </footer>
@@ -145,5 +143,6 @@
 
 
 </script>
+{% block extrascript %}{% endblock %}
 </body>
 </html>

@@ -58,6 +58,7 @@ nav .nav-items li a{
     font-size: 18px;
     font-weight: 500;
     text-decoration: none;
+    transition: color .4s ease;
 }
 
 nav .nav-items li a:hover {
@@ -260,7 +261,7 @@ footer{
 .footer-content p{
     max-width: 500px;
     margin: 10px auto;
-    line-height: 28px;
+    line-height: 24px;
     font-size: 14px;
 }
 
@@ -270,6 +271,7 @@ footer{
     align-items: center;
     justify-content: center;
     margin: 1rem 0 3rem 0;
+    padding: 0;
 }
 
 .socials li{
@@ -293,7 +295,7 @@ footer{
 .footer-bottom{
     background: #000000;
     width: 100vw;
-    padding: 20px 0;
+    padding: 5px 0;
     text-align: center;
 }
 
@@ -309,15 +311,18 @@ footer{
     font-weight: 200;
 }
 
+.footer-bottom span a{
+    text-decoration: none;
+    color: #ffffff;
+    transition: color .2s ease;
+}
 
-
-
-
-
-
-
+.footer-bottom span a:hover {
+    color: rgb(38, 214, 59);
+}
 
 /*end footer*/
+/*_____________________________________________________________________________________________________________*/
 
 
 
