@@ -43,68 +43,107 @@
 
 <!-- Container -->
 <div>
-    <nav>
-        <div class="menu-icon">
-            <i class="fa fa-bars"></i>
+    <header>
+        <nav>
+            <div class="menu-icon">
+                <i class="fa fa-bars"></i>
+            </div>
+
+            <div class="logo">{% trans 'Clothing Store' %}</div>
+
+            <div class="nav-items">
+                <li><a href="#">{% trans 'Home' %}</a></li>
+                <li><a href="#">{% trans 'Service' %}</a></li>
+                <li><a href="#">{% trans 'Gallery' %}</a></li>
+                <li><a href="#">{% trans 'About' %}</a></li>
+                <li><a href="#">{% trans 'Contact' %}</a></li>
+                <li><a href="#">{% trans 'Login' %}</a></li>
+                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+            </div>
+
+            <div class="search-icon">
+                <i class="fa fa-search"></i>
+            </div>
+
+            <div class="cancel-icon">
+                <i class="fa fa-times"></i>
+            </div>
+
+            <form action="#">
+                <input type="search" class="search-data" placeholder="Search" required>
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+
+
+        </nav>
+    </header>
+
+
+    <div class="container">
+
+        {% block section1 %}
+        {% endblock %}
+
+        {% block section2 %}
+        {% endblock %}
+
+        {% block section3 %}
+        {% endblock %}
+
+
+    </div>
+
+
+    <footer>
+        <div class="footer-content">
+            <h3>Clothing Store</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, architecto corporis cupiditate eaque
+                et hic magni quod ullam. Aliquam asperiores, consequatur enim fugit molestiae necessitatibus odio rem
+                ullam unde voluptatum?</p>
+            <ul class="socials">
+                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                <li><a href="#"><i class="fa fa-telegram"></i></a></li>
+                <li><a href="#"><i class="fa fa-google-plus-square"></i></a></li>
+                <li><a href="#"><i class="fa fa-twitter-square"></i></a></li>
+                <li><a href="#"><i class="fa fa-youtube-square"></i></a></li>
+            </ul>
+            <div class="footer-bottom">
+                <p>copyright &copy;2021 Clothing Store. designed by <span>smhtb</span></p>
+            </div>
         </div>
-
-        <div class="logo">Clothing Store</div>
-
-        <div class="nav-items">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Service</a></li>
-            <li><a href="#">Gallery</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
-        </div>
-
-        <div class="search-icon">
-            <i class="fa fa-search"></i>
-        </div>
-
-        <div class="cancel-icon">
-            <i class="fa fa-times"></i>
-        </div>
-
-        <form action="#">
-            <input type="search" class="search-data" placeholder="Search" required>
-            <button type="submit"><i class="fa fa-search"></i></button>
-        </form>
+    </footer>
 
 
-    </nav>
-
-
-    <script>
-        const menuBtn = document.querySelector(".menu-icon i")
-        const searchBtn = document.querySelector(".search-icon")
-        const cancelBtn = document.querySelector(".cancel-icon")
-        const items = document.querySelector(".nav-items")
-        const form = document.querySelector("form")
-        menuBtn.onclick = () => {
-            items.classList.add("active")
-            menuBtn.classList.add("hide")
-            searchBtn.classList.add("hide")
-            cancelBtn.classList.add("show")
-        }
-        cancelBtn.onclick = () => {
-            items.classList.remove("active")
-            menuBtn.classList.remove("hide")
-            searchBtn.classList.remove("hide")
-            cancelBtn.classList.remove("show")
-            form.classList.remove("active")
-        }
-        searchBtn.onclick = () => {
-            searchBtn.classList.add("hide")
-            cancelBtn.classList.add("show")
-            form.classList.add("active")
-        }
-
-
-    </script>
 </div>
-
-
 <!-- END Container -->
+
+
+<script>
+    const menuBtn = document.querySelector(".menu-icon i")
+    const searchBtn = document.querySelector(".search-icon")
+    const cancelBtn = document.querySelector(".cancel-icon")
+    const items = document.querySelector(".nav-items")
+    const form = document.querySelector("form")
+    menuBtn.onclick = () => {
+        items.classList.add("active")
+        menuBtn.classList.add("hide")
+        searchBtn.classList.add("hide")
+        cancelBtn.classList.add("show")
+    }
+    cancelBtn.onclick = () => {
+        items.classList.remove("active")
+        menuBtn.classList.remove("hide")
+        searchBtn.classList.remove("hide")
+        cancelBtn.classList.remove("show")
+        form.classList.remove("active")
+    }
+    searchBtn.onclick = () => {
+        searchBtn.classList.add("hide")
+        cancelBtn.classList.add("show")
+        form.classList.add("active")
+    }
+
+
+</script>
 </body>
 </html>
