@@ -33,4 +33,11 @@ class BaseModelTest(TestCase):
 
         self.assertIn(self.m, TestModel.objects.archive())
 
-
+    # def test_timestamp(self):
+    #     self.m.is_deleted = True
+    #     self.m.save()
+    #     # print(self.m.delete_timestamp)
+    #     self.m.logical_delete_timestamp()
+    #     # print(self.m.delete_timestamp)
+    #
+    #     self.assertTrue(self.m.delete_timestamp)
