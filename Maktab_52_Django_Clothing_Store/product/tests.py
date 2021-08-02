@@ -125,6 +125,29 @@ class ValidatorTest(TestCase):
             delete_timestamp=None,
         )
 
+    def test_discount_gt100_percent(self):
+        self.discnt_prcnt = Discount.objects.create(
+            name=None,
+            amount=101,
+            parent_id=1
+        )
+        self.product = Product.objects.create(
+            name='hoody',
+            price=50,
+            leftovers=100,
+            description='nice cloth for cold days',
+            image=None,
+            color='gray',
+            size='23',
+            category=self.category1,
+            discount=self.discnt_prcnt,
+            brand=self.brand,
+            is_deleted=False,
+            creat_timestamp=timezone.now(),
+            modify_timestamp=timezone.now(),
+            delete_timestamp=None,
+        )
+
 
 class ProductModelsTest(TestCase):
 
