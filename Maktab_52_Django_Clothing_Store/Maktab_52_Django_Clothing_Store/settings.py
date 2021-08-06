@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework',
+
     'core',
     'landing',
     'order',
@@ -154,3 +156,5 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 LOGIN_URL = 'customer:login_page'
 LOGIN_REDIRECT_URL = 'customer:profile_detail'
+
+AUTH_USER_MODEL = 'customer.User'

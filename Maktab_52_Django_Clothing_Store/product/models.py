@@ -2,23 +2,25 @@ from django.db import models
 
 # Create your models here.
 from core.models import *
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 
 class Product(BaseModel, TimestampMixin):
     name = models.CharField(verbose_name=_('Name'), max_length=50, help_text=_('Name of the product'))
     price = models.PositiveIntegerField(_('Price'), help_text=_('Input positive amount in Toomaan/1000'))
     leftovers = models.PositiveIntegerField(_('Leftovers'), help_text=_('Input positive amount'))
-    description = models.CharField(_('Description'), max_length=1000)
+    description = models.CharField(_('Description'), max_length=1000, null=True, blank=True, default=None)
     image = models.FileField(_('Image'), upload_to='ProductImages/', null=True, blank=True, default=None,
                              help_text=_('Image of the product'))
     color = models.CharField(_('Color'), max_length=30, help_text=_('Color of the product'))
-    size = models.CharField(_('Size'), max_length=30,
+    size = models.CharField(_('Size'), max_length=30, null=True, blank=True, default=None,
                             help_text=_('Size of the product (If it has\'nt size, DO NOT fill it)'))
-    category = models.ForeignKey(_('Category'), 'Category', on_delete=models.RESTRICT)
-    discount = models.ForeignKey(_('Discount'), 'Discount', on_delete=models.RESTRICT, default=None, null=True,
+    category = models.ForeignKey(verbose_name=_('Category'), to='Category', on_delete=models.RESTRICT)
+    discount = models.ForeignKey(verbose_name=_('Discount'), to='Discount', on_delete=models.RESTRICT, default=None,
+                                 null=True,
                                  blank=True)
-    brand = models.ForeignKey(_('Brand'), 'Brand', on_delete=models.RESTRICT, default=None, null=True, blank=True)
+    brand = models.ForeignKey(verbose_name=_('Brand'), to='Brand', on_delete=models.RESTRICT, default=None, null=True,
+                              blank=True)
 
     class Meta:
         ordering = ['category', 'creat_timestamp']
@@ -29,13 +31,21 @@ class Product(BaseModel, TimestampMixin):
         return f'{self.id}. {self.name}'
 
     def final_price(self):
-        pass
+        if self.discount:
+            if self.discount.type == '%':
+                ds = self.price * self.discount.amount // 100
+                return (self.price - ds) * 1000
+            elif self.discount.type == '$':
+                ds = self.discount.amount
+                return (self.price - ds) * 1000
+        else:
+            return self.price
 
 
 class Category(BaseModel):
     name = models.CharField(verbose_name=_('Name'), help_text=_('Name of the category'), max_length=50)
-    parent = models.ForeignKey(_('Parent'), 'self', null=True, blank=True, default=None, related_name=_('children'),
-                               on_delete=models.SET_NULL,
+    parent = models.ForeignKey(verbose_name=_('Parent'), to='self', null=True, blank=True, default=None,
+                               related_name=_('children'), on_delete=models.SET_NULL,
                                help_text=_('For example cloth have three parents. Men, Women and Children'))
 
     class Meta:
@@ -67,7 +77,7 @@ class Discount(BaseModel):
                             help_text=_('Type of the discount (percent% or amount$)'))
     name = models.CharField(verbose_name=_('Name'), help_text=_('Name of the discount'), max_length=50)
     amount = models.PositiveIntegerField(_('Discount Amount'), help_text=_('Input positive amount'),
-                                         validators=[gt_100_percent()])
+                                         validators=[])
 
     class Meta:
         verbose_name = 'Discount'

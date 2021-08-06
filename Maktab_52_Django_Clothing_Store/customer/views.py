@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import View, generic
 from django.views.generic import TemplateView
-
+from rest_framework import generics, permissions
 
 # Create your views here.
 
@@ -45,6 +45,8 @@ from django.views.generic import TemplateView
 # @permission_required('auth.see_profile')
 # def profile_detail(request):
 #     return render(request, 'customer_temp/profile-datail.html')
+from customer.permissions import IsSuperUser, IsOwner
+from customer.serializers import *
 
 
 class MyLoginView(LoginView):
@@ -60,5 +62,38 @@ class MyLogoutView(LogoutView):
     pass
 
 
+# ______________________________________________________________________________
+# API
+
+class UserListApi(generics.ListAPIView):
+    serializer_class = UserBriefSerializer
+    queryset = User.objects.all()
+    permission_classes = [
+        IsSuperUser
+    ]
 
 
+class UserDetailApi(generics.ListAPIView):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+
+    def get_queryset(self):
+        return User.objects.filter(username=self.request.user)
+
+
+class AddressListApi(generics.ListAPIView):
+    serializer_class = AddressBriefSerializer
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
+    def get_queryset(self):
+        return Address.objects.filter(owner=self.request.user)
+
+
+class AddressDetailApi(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = AddressSerializer
+    queryset = Address.objects.all()
+    permission_classes = [
+        IsOwner
+    ]

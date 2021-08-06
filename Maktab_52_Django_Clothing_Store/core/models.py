@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 
 # Create your models here.
@@ -15,12 +15,16 @@ class BaseManager(models.Manager):
 
 
 class BaseModel(models.Model):
-    is_deleted = models.BooleanField(verbose_name=_('is it deleted'), default=False)
+    is_deleted = models.BooleanField(verbose_name=_('Is it deleted'), default=False)
 
     objects = BaseManager()
 
     class Meta:
         abstract = True
+
+    def delete_it(self):
+        self.is_deleted = True
+        self.save()
 
 
 class TimestampMixin(models.Model):
@@ -28,13 +32,13 @@ class TimestampMixin(models.Model):
     modify_timestamp = models.DateTimeField(verbose_name=_('modify timestamp'), auto_now=True)
     delete_timestamp = models.DateTimeField(verbose_name=_('delete timestamp'), default=None, null=True, blank=True)
 
-    # def logical_delete_timestamp(self):
-    #     if self.is_deleted:
-    #         self.delete_timestamp = timezone.now()
-    #         self.save()
-    #     else:
-    #         self.delete_timestamp = None
-    #         self.save()
+    def logical_delete_timestamp(self):
+        if self.is_deleted:
+            self.delete_timestamp = timezone.now()
+            self.save()
+        else:
+            self.delete_timestamp = None
+            self.save()
 
     class Meta:
         abstract = True
@@ -42,3 +46,5 @@ class TimestampMixin(models.Model):
 
 class TestModel(TimestampMixin, BaseModel):
     pass
+    # class Meta(BaseModel.Meta, TimestampMixin.Meta):
+    #     pass
