@@ -33,12 +33,14 @@ class TimestampMixin(models.Model):
     delete_timestamp = models.DateTimeField(verbose_name=_('delete timestamp'), default=None, null=True, blank=True)
 
     def logical_delete_timestamp(self):
-        if self.is_deleted:
-            self.delete_timestamp = timezone.now()
-            self.save()
-        else:
+        if not BaseModel.is_deleted:
             self.delete_timestamp = None
-            self.save()
+        else:
+            self.delete_timestamp = timezone.now()
+
+    def save(self, *args, **kwargs):
+        self.logical_delete_timestamp()
+        super(TimestampMixin, self).save(*args, **kwargs)
 
     class Meta:
         abstract = True
@@ -46,5 +48,5 @@ class TimestampMixin(models.Model):
 
 class TestModel(TimestampMixin, BaseModel):
     pass
-    # class Meta(BaseModel.Meta, TimestampMixin.Meta):
+# class Meta(BaseModel.Meta, TimestampMixin.Meta):
     #     pass

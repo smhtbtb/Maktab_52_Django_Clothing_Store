@@ -1,5 +1,7 @@
+from django import forms
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, LogoutView
@@ -53,8 +55,23 @@ class MyLoginView(LoginView):
     pass
 
 
-class ProfileView(PermissionRequiredMixin, TemplateView):
-    permission_required = 'auth.see_profile'
+class UserLoginForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super(UserLoginForm, self).__init__(*args, **kwargs)
+
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': '', 'id': 'hello'}))
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': '',
+            'id': 'hi',
+        }
+    ))
+
+
+class ProfileView(LoginRequiredMixin, TemplateView):
+    # permission_required = 'auth.see_profile'
     template_name = 'customer_temp/profile-datail.html'
 
 

@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import render
-
+from django.views import generic
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
@@ -10,6 +10,19 @@ from rest_framework.response import Response
 from product.models import Product
 from product.serializers import ProductSerializer
 
+
+class ProductDetail(generic.DetailView):
+    pass
+
+
+class ProductCardView(generic.DetailView):
+    template_name = 'product_temp/product_card_view.html'
+    model = Product
+    context_object_name = 'product'
+
+
+# __________________________________________________________________________________
+# TODO REST API
 
 # @api_view(["POST"])
 # @csrf_exempt

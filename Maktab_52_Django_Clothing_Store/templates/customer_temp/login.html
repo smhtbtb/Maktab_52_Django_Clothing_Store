@@ -1,32 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <style>
-        body{
-            text-align: center;
-            border: 2px blue dotted;
-            border-radius: 50px;
-            margin: 5px;
-            padding: 5px;
-        }
-        input{
-            border: none;
-            border-bottom: 5px solid rgba(255, 0, 0, 0.49);
-        }
-    </style>
-</head>
-<body>
-<form method="post">
-    {% csrf_token %}
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username"><br><br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password"><br><br>
-    <input type="submit" value="Submit">
+{% extends 'base_temp/base.html' %}
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Login</title>#}
+{#    <style>#}
+{#        body{#}
+{#            text-align: center;#}
+{#            border: 2px blue dotted;#}
+{#            border-radius: 50px;#}
+{#            margin: 5px;#}
+{#            padding: 5px;#}
+{#            background-color: #0a53be;#}
+{#        }#}
+{#        input{#}
+{#            border: none;#}
+{#            border-bottom: 5px solid rgba(255, 0, 0, 0.49);#}
+{#        }#}
+{#    </style>#}
+{#</head>#}
+{#<body>#}
+{#<form method="post" style="background-color: #0a53be">#}
+{#    {% csrf_token %}#}
+{#    <label for="username">Username:</label>#}
+{#    <input type="text" id="username" name="username"><br><br>#}
+{#    <label for="password">Password:</label>#}
+{#    <input type="password" id="password" name="password"><br><br>#}
+{#    <input type="submit" value="Submit">#}
+{##}
+{#</form>#}
+{##}
+{#</body>#}
+{#</html>#}
+{% block title %}Login{% endblock %}
 
-</form>
+{% block section1 %}
+    <form method="post" enctype="application/x-www-form-urlencoded">{% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="form-group">
 
-</body>
-</html>
+            <label for="{{ form.username.id_for_label }}">Phone:</label>
+            {{ form.username }}
+            {{ form.username.errors }}
+
+        </div>
+        <div class="form-group">
+
+            <label for="{{ form.password.id_for_label }}">Password:</label>
+            {{ form.password }}
+            {{ form.password.errors }}
+        </div>
+        <button type="submit">Login</button>
+    </form>
+{% endblock %}
