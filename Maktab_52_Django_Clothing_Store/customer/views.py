@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, LogoutView
@@ -47,6 +47,8 @@ from rest_framework import generics, permissions
 # @permission_required('auth.see_profile')
 # def profile_detail(request):
 #     return render(request, 'customer_temp/profile-datail.html')
+
+from customer.forms import RegistrationForm
 from customer.permissions import IsSuperUser, IsOwner
 from customer.serializers import *
 
@@ -62,12 +64,39 @@ class UserLoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': '', 'id': 'hello'}))
     password = forms.CharField(widget=forms.PasswordInput(
-        attrs={
-            'class': 'form-control',
-            'placeholder': '',
-            'id': 'hi',
-        }
+        attrs={'class': 'form-control', 'placeholder': '', 'id': 'hi'}
     ))
+
+
+def register(request):
+    context = {}
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            email = form.cleaned_data.get('email')
+            phone = form.cleaned_data.get('phone')
+            raw_password = form.cleaned_data.get('password1')
+            account = authenticate(phone=phone, password=raw_password)
+            login(request, account)
+
+            return redirect('customer:profile_detail')
+        else:
+            context['registration_form'] = form
+    elif request.method == 'GET':
+        form = RegistrationForm()
+        context['registration_form'] = form
+
+    return render(request, 'customer_temp/register_form.html', context)
+
+
+# class Register(generic.FormView):
+#     template_name = 'customer_temp/register_form.html'
+#     form_class = RegistrationForm
+#     success_url = reverse_lazy('customer:profile_detail')
+#
+#     def form_valid(self, form):
+#         return super().form_valid(form)
 
 
 class ProfileView(LoginRequiredMixin, TemplateView):
@@ -75,12 +104,12 @@ class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'customer_temp/profile-datail.html'
 
 
-class MyLogoutView(LogoutView):
-    pass
+# class MyLogoutView(LogoutView):
+#     pass
 
 
 # ______________________________________________________________________________
-# API
+# TODO API
 
 class UserListApi(generics.ListAPIView):
     serializer_class = UserBriefSerializer

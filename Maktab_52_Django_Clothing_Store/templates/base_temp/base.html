@@ -57,7 +57,9 @@
                 <li><a href="#">{% trans 'Gallery' %}</a></li>
                 <li><a href="#">{% trans 'About' %}</a></li>
                 <li><a href="#">{% trans 'Contact' %}</a></li>
-                <li><a href="#">{% trans 'Login' %}</a></li>
+                {% if not user %}<li><a href="{% url 'customer:login' %}">{% trans 'Login' %}</a></li>
+                {% elif user %}<li><a href="{% url 'customer:profile_detail' %}">{{ user.phone }}|{% trans 'Profile' %}</a></li>
+                {% endif %}
                 <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
             </div>
 
@@ -79,7 +81,7 @@
     </header>
 
 
-    <div class="container">
+    <div class="container" style="display:flex;">
 
         {% block section1 %}
         {% endblock %}
@@ -94,7 +96,7 @@
     </div>
 
 
-    <footer>
+    <footer style="display:table;">
         <div class="footer-content">
             <h3>{% trans 'Clothing Store' %}</h3>
             <p>{% trans "Our store, after the successful experience of online stores, entered the field of fashion, clothing and lifestyle in a specialized way to repeat a sweet experience in a new format. In our store you can find everything related to fashion and clothing, from women's clothing, men's clothing and children's clothing to bags and shoes with special discounts at auctions, and simply buy a complete set of the latest reputable brands." %}</p>
@@ -106,7 +108,7 @@
                 <li><a href="#"><i class="fa fa-youtube-square"></i></a></li>
             </ul>
             <div class="footer-bottom">
-                <p>copyright &copy;2021 Clothing Store. designed by <span><a href="#">smhtb</a></span></p>
+                <p>copyright &copy;2021 Clothing Store. designed by <span><a href="https://github.com/smhtbtb">smhtb</a></span></p>
             </div>
         </div>
     </footer>

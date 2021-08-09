@@ -21,6 +21,13 @@ class ProductCardView(generic.DetailView):
     context_object_name = 'product'
 
 
+class ProductIndexView(generic.TemplateView):
+    template_name = 'product_temp/product_index.html'
+    extra_context = {
+        'products': Product.objects.all()
+    }
+
+
 # __________________________________________________________________________________
 # TODO REST API
 

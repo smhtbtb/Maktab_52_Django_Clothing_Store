@@ -189,6 +189,36 @@ class ProductModelsTest(TestCase):
             category=self.category1,
         )
 
+        self.bad_discount_percent = Discount.objects.create(
+            amount=120,
+            type='%'
+        )
+
+        self.bad_discount_toomaan = Discount.objects.create(
+            amount=120,
+            type='$'
+        )
+
+        self.product6 = Product.objects.create(
+            name='hoody',
+            price=50,
+            leftovers=100,
+            color='gray',
+            size='23',
+            category=self.category1,
+            discount=self.bad_discount_percent
+        )
+
+        self.product7 = Product.objects.create(
+            name='hoody',
+            price=50,
+            leftovers=100,
+            color='gray',
+            size='23',
+            category=self.category1,
+            discount=self.bad_discount_toomaan
+        )
+
     def test_final_price_toomaan(self):
         self.assertEqual(self.product1.final_price(), 30_000)
 
@@ -203,4 +233,12 @@ class ProductModelsTest(TestCase):
 
     def test_final_price_without_brand(self):
         self.assertEqual(self.product5.final_price(), 50_000)
+
+    def test_discount_validator1(self):
+        # print(self.product6.final_price())
+        self.assertRaises(ValidationError, self.product6.final_price)
+
+    def test_discount_validator2(self):
+        # print(self.product7.final_price())
+        self.assertRaises(ValidationError, self.product7.final_price)
 

@@ -6,16 +6,24 @@ from core.models import *
 from django.utils.translation import gettext_lazy as _
 
 
-def positive_number(val: int):
-    if val < 0:
-        raise ValidationError(f'{val} is not positive')
+# def discount_validator():
+#     cls = Product
+#     if cls.discount.type == '%':
+#         if cls.discount.amount > 100:
+#             raise ValidationError(_('Your discount can\'t be more than 100%'))
+#         else:
+#             return True
+#     elif cls.discount.type == '$':
+#         if cls.discount.amount > cls.price:
+#             raise ValidationError(_('Your discount can\'t be more than the price'))
+#         else:
+#             return True
 
 
 class Product(BaseModel, TimestampMixin):
     name = models.CharField(verbose_name=_('Name'), max_length=50, help_text=_('Name of the product'))
-    price = models.PositiveIntegerField(_('Price'), help_text=_('Input positive amount in Toomaan/1000'), validators=[
-        positive_number
-    ])
+    price = models.PositiveIntegerField(_('Price'), help_text=_('Input positive amount in Toomaan/1000'))
+
     leftovers = models.PositiveIntegerField(_('Leftovers'), help_text=_('Input positive amount'))
     sold = models.PositiveIntegerField(verbose_name=_('Sold items'), default=0)
 
@@ -47,11 +55,17 @@ class Product(BaseModel, TimestampMixin):
     def final_price(self):
         if self.discount:
             if self.discount.type == '%':
-                ds = self.price * self.discount.amount // 100
-                return (self.price - ds) * 1000
+                if self.discount.amount > 100:
+                    raise ValidationError(_('Your discount can\'t be more than 100%'))
+                else:
+                    ds = self.price * self.discount.amount // 100
+                    return (self.price - ds) * 1000
             elif self.discount.type == '$':
-                ds = self.discount.amount
-                return (self.price - ds) * 1000
+                if self.discount.amount > self.price:
+                    raise ValidationError(_('Your discount can\'t be more than the price'))
+                else:
+                    ds = self.discount.amount
+                    return (self.price - ds) * 1000
         else:
             return self.price * 1000
 

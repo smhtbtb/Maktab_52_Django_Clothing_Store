@@ -154,7 +154,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 
-LOGIN_URL = 'customer:login_page'
+LOGIN_URL = 'customer:login'
 LOGIN_REDIRECT_URL = 'customer:profile_detail'
 
 AUTH_USER_MODEL = 'customer.User'

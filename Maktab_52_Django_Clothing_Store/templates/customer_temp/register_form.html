@@ -1,0 +1,39 @@
+{% extends 'base_temp/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans 'Register' %}{% endblock %}
+
+{% block section1 %}
+    <h2 style="margin: 10px">Registration</h2><br>
+            <form action="" method="post">
+                {% csrf_token %}
+                {% for field in registration_form %}
+                    <h5>
+                        {{ field.label_tag }}
+                        {{ field }}
+
+                        {% if field.help_text %}
+                            <small style="color: gray">{{ field.help_text }}</small>
+                        {% endif %}
+
+                        {% for error in field.errors %}
+                            <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                    </h5>
+
+                {% endfor %}
+                <button type="submit">{% trans 'Register' %}</button>
+
+            </form>
+
+{#    <form action="" method="post">#}
+{#        {% csrf_token %}#}
+{#        {{ form.as_p }}#}
+{#        <input type="submit">#}
+{#    </form>#}
+
+
+{% endblock %}
+
+
+

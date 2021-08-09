@@ -31,6 +31,7 @@ nav{
     justify-content: space-between;
     height: 70px;
     padding: 0 100px;
+    margin-bottom: 20px;
 
 }
 
@@ -232,10 +233,11 @@ nav .menu-icon i, nav .cancel-icon, nav .search-icon {
 /*footer*/
 
 footer{
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    left: 0;
+    /*position: absolute;*/
+    /*bottom: 0;*/
+    /*right: 0;*/
+    /*left: 0;*/
+    margin-top: 20px;
     background: #1e232b;
     height: auto;
     width: 100vw;

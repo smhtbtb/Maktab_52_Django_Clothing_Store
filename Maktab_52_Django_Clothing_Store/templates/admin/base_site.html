@@ -1,0 +1,53 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Coffee House') }}{% endblock %}
+
+
+
+
+
+
+{% block extrahead %}{{ block.super }}
+    <style>
+        :root{
+            --primary: rgba(0, 144, 18, 0.77);
+            --header-bg: #1e232b;
+            --accent: #26d63b;
+            --header-color: #26d63b;
+        }
+
+        @font-face {
+            font-family: 'BYekan';/*تعریف یک نام برای فونت*/
+            src: local('bYekan'), /*بررسی نصب بودن فونت در سیستم کاربر*/ local('b Yekan');
+            font-style: normal;
+            font-weight: normal;
+        }
+        body{
+            background-color: rgba(245, 222, 179, 0.57);
+            font-family: 'BYekan', normal, serif;
+
+        }
+
+
+    </style>
+
+{% endblock %}
+
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{% trans 'Clothing Store' %}</a></h1>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+

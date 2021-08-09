@@ -1,0 +1,17 @@
+{% extends 'base_temp/base.html' %}
+{% load i18n %}
+{% block section1 %}
+    <div class="home-center">
+        <div class="home-desc-center">
+            <div class="row justify-content-center">
+                <div class="col">
+                    <div class="login-page bg-white shadow rounded p-4">
+                        <div class="text-center">
+                            <h4 class="mb-4">{% trans 'You have been logged out' %}</h4>
+                        </div>
+                    </div> <!--end col-->
+                </div><!--end row-->
+            </div> <!--end container-->
+        </div>
+    </div>
+{% endblock %}

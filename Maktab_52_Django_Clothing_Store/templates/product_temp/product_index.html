@@ -1,0 +1,16 @@
+{% extends 'base_temp/base.html' %}
+{% load i18n %}
+{% block title %}{% trans 'Products' %}{% endblock %}
+
+
+<div class="s1">
+    <div class="col-1 col-sm-2 col-md-3 col-lg-4">
+        <div class="row">
+            {% block section1 %}
+                {% for prdct in products %}
+                    {% include 'product_temp/product_card_view.html' with product=prdct %}
+                {% endfor %}
+            {% endblock %}
+        </div>
+    </div>
+</div>

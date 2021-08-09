@@ -1,0 +1,23 @@
+.nav li {
+    background-color: #1e232b;
+    border: 2px solid #26d63b;
+    border-radius: 20px;
+    padding: 5px;
+    transition: background-color .2s ease;
+    margin: 5px;
+}
+
+.nav li:hover{
+    background-color: rgba(38, 214, 59, 0.73);
+}
+
+li a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color .2s ease;
+}
+
+li a:hover{
+    color: #1e232b;
+}
+

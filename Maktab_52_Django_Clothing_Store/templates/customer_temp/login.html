@@ -1,4 +1,5 @@
 {% extends 'base_temp/base.html' %}
+{% load i18n %}
 {#<!DOCTYPE html>#}
 {#<html lang="en">#}
 {#<head>#}
@@ -32,24 +33,33 @@
 {##}
 {#</body>#}
 {#</html>#}
-{% block title %}Login{% endblock %}
+{% block title %}{% trans 'Login' %}{% endblock %}
+
 
 {% block section1 %}
-    <form method="post" enctype="application/x-www-form-urlencoded">{% csrf_token %}
-        {{ form.non_field_errors }}
-        <div class="form-group">
+    <div style="text-align: center; align-content: center; justify-content: center; place-content: center;">
+        <form method="post" enctype="application/x-www-form-urlencoded">{% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="form-group">
 
-            <label for="{{ form.username.id_for_label }}">Phone:</label>
-            {{ form.username }}
-            {{ form.username.errors }}
+                <label for="{{ form.username.id_for_label }}">Phone:</label>
+                {{ form.username }}
+                {{ form.username.errors }}
 
+            </div>
+            <div class="form-group">
+
+                <label for="{{ form.password.id_for_label }}">Password:</label>
+                {{ form.password }}
+                {{ form.password.errors }}
+            </div>
+            <button type="submit" style="margin: 5px; border: none;
+             color: rgba(6,172,26,0.83); border-bottom: 3px solid #26d63b;">{% trans 'Login' %}</button>
+        </form>
+        <div>
+            <a href="{% url 'customer:register' %}" style="text-decoration: none; font-size: 15px;
+             border: 2px solid #26d63b; border-radius: 10px; padding: 2px; margin: 5px; color: #0f8e25;">
+                {% trans "Don't you have any account?" %}</a>
         </div>
-        <div class="form-group">
-
-            <label for="{{ form.password.id_for_label }}">Password:</label>
-            {{ form.password }}
-            {{ form.password.errors }}
-        </div>
-        <button type="submit">Login</button>
-    </form>
+    </div>
 {% endblock %}

@@ -8,6 +8,7 @@ from product.views import *
 app_name = 'product'
 urlpatterns = [
     # path('p/', product_api),
+    path('', ProductIndexView.as_view(), name='product_index_view'),
     path('product_card_view/<int:pk>', ProductCardView.as_view(), name='product_card_view'),
 
     path('products_listcreate', ProductListCreateApiView.as_view()),
