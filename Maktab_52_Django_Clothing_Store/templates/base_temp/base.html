@@ -53,12 +53,17 @@
 
             <div class="nav-items">
                 <li><a href="#">{% trans 'Home' %}</a></li>
-                <li><a href="#">{% trans 'Service' %}</a></li>
-                <li><a href="#">{% trans 'Gallery' %}</a></li>
+                <li class="dropdown"><a href="{% url 'product:product_index_view' %}">{% trans 'Categories' %}</a>
+                    <ul class="sub-menu">
+                        <li><a href="{% url 'product:product_men_view' %}">{% trans 'Men' %}</a></li>
+                        <li><a href="{% url 'product:product_women_view' %}">{% trans 'Women' %}</a></li>
+                        <li><a href="{% url 'product:product_children_view' %}">{% trans 'Children' %}</a></li>
+                    </ul>
+                </li>
                 <li><a href="#">{% trans 'About' %}</a></li>
                 <li><a href="#">{% trans 'Contact' %}</a></li>
-                {% if not user %}<li><a href="{% url 'customer:login' %}">{% trans 'Login' %}</a></li>
-                {% elif user %}<li><a href="{% url 'customer:profile_detail' %}">{{ user.phone }}|{% trans 'Profile' %}</a></li>
+                {% if not user.phone %}<li><a href="{% url 'customer:login' %}">{% trans 'Login' %}</a></li>
+                {% else %}<li><a href="{% url 'customer:profile_detail' %}">{{ user.phone }}|{% trans 'Profile' %}</a></li>
                 {% endif %}
                 <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
             </div>
@@ -81,7 +86,7 @@
     </header>
 
 
-    <div class="container" style="display:flex;">
+    <div class="container">
 
         {% block section1 %}
         {% endblock %}
@@ -142,6 +147,13 @@
         cancelBtn.classList.add("show")
         form.classList.add("active")
     }
+
+
+    $(document).ready(function (){
+        $(".dropdown").click(function (){
+            $(this).toggleClass("active")
+        })
+    })
 
 
 </script>

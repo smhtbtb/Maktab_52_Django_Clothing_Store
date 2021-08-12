@@ -4,4 +4,5 @@ from core.views import *
 
 urlpatterns = [
     path('base/', MyView.as_view(), name='baseview'),
+    path('test/', test, name='test'),
     ]

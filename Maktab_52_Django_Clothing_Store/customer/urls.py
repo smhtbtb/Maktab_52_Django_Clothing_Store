@@ -15,7 +15,11 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='customer_temp/logout.html'), name='logout'),
     path('register/', register, name='register'),
     # path('register/', Register.as_view(), name='register'),
+    path('address_create/', AddressCreateView.as_view(), name='address_create'),
 
+
+
+    # TODO API
     path('users_list/', UserListApi.as_view(), name='users_list'),
     path('user_detail/', UserDetailApi.as_view(), name='user_detail'),
 

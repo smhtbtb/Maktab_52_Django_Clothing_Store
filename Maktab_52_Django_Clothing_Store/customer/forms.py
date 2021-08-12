@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
 
-from customer.models import User
+from customer.models import *
 
 
 class LoginUser(forms.ModelForm):
@@ -39,5 +39,11 @@ class RegistrationForm(UserCreationForm):
     #     return user
 
 
+# class UpdateAddressForm(forms.ModelForm):
+#     model = Address
+#     fields = '__all__'
 
-
+class AddressFrom(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = ['city', 'province', 'detail', 'post_code']

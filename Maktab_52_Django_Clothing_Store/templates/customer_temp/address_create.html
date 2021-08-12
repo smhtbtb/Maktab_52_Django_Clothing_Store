@@ -1,0 +1,17 @@
+{% extends 'base_temp/base.html' %}
+{% load static i18n %}
+{% block title %}{% trans 'Address' %}{% endblock %}
+
+{% block section1 %}
+    <form method="POST" enctype="multipart/form-data" class="form-control">
+
+        <!-- Security token -->
+        {% csrf_token %}
+
+        <!-- Using the formset -->
+        {{ form.as_p }}
+
+        <input type="submit" value="Submit" style="margin: 5px; border: none;
+             color: rgba(6,172,26,0.83); border-bottom: 3px solid #26d63b;">
+    </form>
+{% endblock %}

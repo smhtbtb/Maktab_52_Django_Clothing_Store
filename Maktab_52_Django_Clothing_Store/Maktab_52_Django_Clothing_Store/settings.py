@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+from logging import LogRecord
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -17,7 +17,6 @@ from jedi.plugins import *
 from jedi.plugins import django
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -29,7 +28,6 @@ SECRET_KEY = 'django-insecure-dw6ztv7%%h_w0zq2m-^ljbe2@6@417p56x457kcr+gxbye6(w-
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -49,7 +47,6 @@ INSTALLED_APPS = [
     'product',
     'customer',
 
-
 ]
 
 MIDDLEWARE = [
@@ -60,6 +57,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'core.middleware.TimingMiddleware'
 ]
 
 ROOT_URLCONF = 'Maktab_52_Django_Clothing_Store.urls'
@@ -83,7 +82,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Maktab_52_Django_Clothing_Store.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -97,7 +95,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -117,7 +114,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -130,7 +126,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -146,15 +141,85 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 LOCALE_PATHS = [BASE_DIR / "locale"]
-
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
 
 LOGIN_URL = 'customer:login'
 LOGIN_REDIRECT_URL = 'customer:profile_detail'
 
 AUTH_USER_MODEL = 'customer.User'
+
+
+def length_limit(record: LogRecord) -> bool:
+    if int(len(record.getMessage())) > 20:
+        return True
+    return False
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+
+    'formatters': {
+        'short': {
+            'format': "{levelname} {asctime}: '{message}'",
+            'style': '{'
+        },
+        'verbose': {
+            'format': "{levelname} {asctime}: '{message}' at {module} (process: {process}, thread: {thread})",
+            'style': '{'
+        },
+    },
+
+    'filters': {
+        'length_limit': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': length_limit,
+        }
+    },
+
+    'handlers': {
+        'my-console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'short'
+        },
+        'my-file-project': {
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'log/project.log',
+            'formatter': 'verbose',
+            'level': 'ERROR'
+        },
+        'my-file-developers': {
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'log/developers.log',
+            'formatter': 'verbose',
+            'level': 'ERROR'
+        },
+    },
+
+    'root': {
+        'handlers': ['my-console'],
+        'level': 'DEBUG',
+        'filters': ['length_limit']
+    },
+
+    'loggers': {
+        'timing': {
+            'handlers': ['my-console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'project': {
+            'handlers': ['my-file-project'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'project.developers': {
+            'handlers': ['my-file-developers'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}

@@ -39,20 +39,21 @@
 {% block section1 %}
     <div style="text-align: center; align-content: center; justify-content: center; place-content: center;">
         <form method="post" enctype="application/x-www-form-urlencoded">{% csrf_token %}
-            {{ form.non_field_errors }}
+
             <div class="form-group">
 
                 <label for="{{ form.username.id_for_label }}">Phone:</label>
                 {{ form.username }}
-                {{ form.username.errors }}
+                <p style="font-size: 15px; color: red">{{ form.username.errors }}</p>
 
             </div>
             <div class="form-group">
 
                 <label for="{{ form.password.id_for_label }}">Password:</label>
                 {{ form.password }}
-                {{ form.password.errors }}
+                <p style="font-size: 15px; color: red">{{ form.password.errors }}</p>
             </div>
+            <p style="font-size: 15px; color: red">{{ form.non_field_errors }}</p>
             <button type="submit" style="margin: 5px; border: none;
              color: rgba(6,172,26,0.83); border-bottom: 3px solid #26d63b;">{% trans 'Login' %}</button>
         </form>

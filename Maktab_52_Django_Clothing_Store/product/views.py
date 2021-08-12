@@ -12,7 +12,9 @@ from product.serializers import ProductSerializer
 
 
 class ProductDetail(generic.DetailView):
-    pass
+    template_name = 'product_temp/product_detail_view.html'
+    model = Product
+    context_object_name = 'product'
 
 
 class ProductCardView(generic.DetailView):
@@ -25,6 +27,27 @@ class ProductIndexView(generic.TemplateView):
     template_name = 'product_temp/product_index.html'
     extra_context = {
         'products': Product.objects.all()
+    }
+
+
+class ProductMenView(generic.TemplateView):
+    template_name = 'product_temp/product_index_men.html'
+    extra_context = {
+        'products': Product.objects.filter(category__parent__name='men')
+    }
+
+
+class ProductWomenView(generic.TemplateView):
+    template_name = 'product_temp/product_index_women.html'
+    extra_context = {
+        'products': Product.objects.filter(category__parent__name='women')
+    }
+
+
+class ProductChildrenView(generic.TemplateView):
+    template_name = 'product_temp/product_index_children.html'
+    extra_context = {
+        'products': Product.objects.filter(category__parent__name='children')
     }
 
 

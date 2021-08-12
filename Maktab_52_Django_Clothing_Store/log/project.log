@@ -1,0 +1,8 @@
+ERROR 2021-08-12 23:41:15,091: 'ERROR MESSAGE (should be more than twenty characters)' at views (process: 17572, thread: 16944)
+CRITICAL 2021-08-12 23:41:15,093: 'CRITICAL MESSAGE' at views (process: 17572, thread: 16944)
+ERROR 2021-08-12 23:42:04,747: 'ERROR MESSAGE (should be more than twenty characters)' at views (process: 16664, thread: 7660)
+CRITICAL 2021-08-12 23:42:04,747: 'CRITICAL MESSAGE' at views (process: 16664, thread: 7660)
+ERROR 2021-08-12 23:45:49,378: 'ERROR MESSAGE (should be more than twenty characters)' at views (process: 15056, thread: 10864)
+CRITICAL 2021-08-12 23:45:49,378: 'CRITICAL MESSAGE' at views (process: 15056, thread: 10864)
+ERROR 2021-08-12 23:46:17,233: 'ERROR MESSAGE (should be more than twenty characters)' at views (process: 20324, thread: 12132)
+CRITICAL 2021-08-12 23:46:17,233: 'CRITICAL MESSAGE' at views (process: 20324, thread: 12132)

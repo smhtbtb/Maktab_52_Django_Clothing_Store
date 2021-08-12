@@ -42,13 +42,17 @@ class User(AbstractUser):
     invite_code = models.CharField(verbose_name=_('Invite Code'), max_length=15, null=True, blank=True, default=None,
                                    help_text=_('If you have not invite code do not fill this field'))
 
+    def save(self, *args, **kwargs):
+        self.username = str(self.phone)
+        super().save(*args, **kwargs)
+
 
 class Address(BaseModel):
     owner = models.ForeignKey(verbose_name=_('Owner'), to=User, on_delete=models.RESTRICT,
                               help_text=_('The owner of the address'))
 
-    lat = models.FloatField(verbose_name=_('Geographic latitude'))
-    lng = models.FloatField(verbose_name=_('Geographic longitude'))
+    lat = models.FloatField(verbose_name=_('Geographic latitude'), null=True, blank=True, default=None)
+    lng = models.FloatField(verbose_name=_('Geographic longitude'), null=True, blank=True, default=None)
 
     city = models.CharField(verbose_name=_('City'), max_length=20)
     province = models.CharField(verbose_name=_('Province'), max_length=20)
@@ -58,3 +62,6 @@ class Address(BaseModel):
 
     post_code = models.CharField(verbose_name=_('Post Code'), max_length=10, null=True, blank=True, default=None,
                                  help_text=_('Write your 10 character post code'), validators=[post_code])
+
+    def __str__(self):
+        return f'{self.city} - {self.province} - {self.detail}'

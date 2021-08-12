@@ -32,7 +32,7 @@ class Order(BaseModel, TimestampMixin):
         ('Pr', _('Processing')),
     ]
 
-    user = models.ForeignKey(verbose_name=_('User'), to=User, on_delete=models.DO_NOTHING),
+    user = models.ForeignKey(to=User, verbose_name=_('User'), on_delete=models.CASCADE)
     payment_type = models.CharField(verbose_name=_('Payment Type'), max_length=1, choices=PAYMENT_CHOICES, default='O')
     status = models.CharField(verbose_name=_('Status'), max_length=2, choices=STATUS_CHOICES,
                               help_text=_('Types of the status'), default='Pr')
@@ -45,10 +45,13 @@ class Order(BaseModel, TimestampMixin):
     def __str__(self):
         return f'{self.user}, {self.status} ({self.payment_type})'
 
+    def total_price(self):
+        pass
+
 
 class OrderItem(BaseModel, TimestampMixin):
-    number = models.PositiveIntegerField(default=1),
-    order = models.ForeignKey(verbose_name=_('Order'), to=Order, on_delete=models.DO_NOTHING),
+    number = models.PositiveIntegerField(default=1)
+    order = models.ForeignKey(verbose_name=_('Order'), to=Order, on_delete=models.DO_NOTHING)
     product = models.ForeignKey(verbose_name=_('Product'), to=Product, on_delete=models.DO_NOTHING)
 
     class Meta:
@@ -60,4 +63,4 @@ class OrderItem(BaseModel, TimestampMixin):
         return f'{self.order}=> {self.product}, {self.number}'
 
     def item_price(self):
-        return self.product.final_price
+        return self.product.final_price() * self.number

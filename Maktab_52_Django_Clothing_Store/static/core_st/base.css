@@ -31,7 +31,7 @@ nav{
     justify-content: space-between;
     height: 70px;
     padding: 0 100px;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
 
 }
 
@@ -49,12 +49,12 @@ nav .nav-items{
 
 }
 
-nav .nav-items li{
+nav .nav-items > li{
     list-style: none;
     padding: 0 15px;
 }
 
-nav .nav-items li a{
+nav .nav-items > li a{
     color: #ffffff;
     font-size: 18px;
     font-weight: 500;
@@ -62,7 +62,7 @@ nav .nav-items li a{
     transition: color .4s ease;
 }
 
-nav .nav-items li a:hover {
+nav .nav-items > li a:hover {
     color: #26d63b;
 }
 
@@ -119,6 +119,21 @@ nav .menu-icon i, nav .cancel-icon, nav .search-icon {
     display: none;
 }
 
+
+ul.sub-menu {
+    display: none;
+    position: absolute;
+    list-style: none;
+    padding: 10px;
+    background-color: #171c24;
+}
+
+.dropdown:hover .sub-menu,
+.dropdown.active .sub-menu{
+    display: block;
+}
+
+
 @media (max-width: 1245px) {
     nav{
         padding: 0 50px;
@@ -150,11 +165,11 @@ nav .menu-icon i, nav .cancel-icon, nav .search-icon {
     nav .nav-items.active{
         left: 0;
     }
-    nav .nav-items li{
+    nav .nav-items > li{
         line-height: 40px;
         margin: 30px 0;
     }
-    nav .nav-items li a{
+    nav .nav-items > li a{
         font-size: 20px;
     }
     nav form{

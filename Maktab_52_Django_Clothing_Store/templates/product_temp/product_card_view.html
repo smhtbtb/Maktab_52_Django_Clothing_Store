@@ -1,17 +1,21 @@
-<div class="col-1 col-sm-2 col-md-3 col-lg-4" style="display: contents">
-    <div class="row" style="height: 500px; width: 300px; text-align: center; border: 5px solid rgba(38,214,59,0.56); border-radius: 8px; margin: 10px auto;
+{% load i18n %}
+<div style="height: 550px; width: 300px; text-align: center; border: 5px solid rgba(38,214,59,0.56); border-radius: 8px; margin: 10px;
 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); padding: 20px">
-        <img src="{{ product.image.url }}" alt=""
-             style="height: 350px; width: 250px; border-radius: 8px; margin: 5px auto" onmouseenter="enlargeImg(this)"
-             onmouseleave="backlargeImg(this)">
-        <h4>{{ product.name }}</h4>
-        <p>{{ product.final_price }} Toomaan</p>
-    </div>
+    <img src="{{ product.image.url }}" alt=""
+         style="height: 350px; width: 250px; border-radius: 8px; margin: 5px auto" onmouseenter="enlargeImg(this)"
+         onmouseleave="backlargeImg(this)">
+    <h4>{{ product.name }}</h4>
+    {% if product.discount %}
+        <p style="color: red; text-decoration: line-through; font-size: 15px">{% trans 'Product Price:' %} {{ product.price }}000</p>
+        <p>{% trans 'Product Discounted Price:' %} {{ product.final_price }}</p>
+    {% else %}
+        <p>{% trans 'Product Price:' %} {{ product.final_price }}</p>
+    {% endif %}
 </div>
 
 <script>
     function enlargeImg(img) {
-        img.style.transform = "scale(1.15)";
+        img.style.transform = "scale(1.1)";
         img.style.transition =
             "transform 0.25s ease";
     }

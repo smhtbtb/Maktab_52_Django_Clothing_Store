@@ -48,7 +48,7 @@ from rest_framework import generics, permissions
 # def profile_detail(request):
 #     return render(request, 'customer_temp/profile-datail.html')
 
-from customer.forms import RegistrationForm
+from customer.forms import RegistrationForm, AddressFrom
 from customer.permissions import IsSuperUser, IsOwner
 from customer.serializers import *
 
@@ -102,10 +102,26 @@ def register(request):
 class ProfileView(LoginRequiredMixin, TemplateView):
     # permission_required = 'auth.see_profile'
     template_name = 'customer_temp/profile-datail.html'
+    # extra_context = {
+    #     'address': User.owner_set.all()
+    # }
 
 
 # class MyLogoutView(LogoutView):
 #     pass
+
+
+class AddressCreateView(generic.FormView):
+    form_class = AddressFrom
+    template_name = 'customer_temp/address_create.html'
+    success_url = reverse_lazy('customer:profile_detail')
+
+    def form_valid(self, form):
+        address = form.save(commit=False)
+        address.owner = self.request.user
+        address.save()
+        form.save()
+        return super().form_valid(form)
 
 
 # ______________________________________________________________________________

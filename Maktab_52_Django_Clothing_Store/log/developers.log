@@ -1,0 +1,2 @@
+ERROR 2021-08-12 23:36:51,724: 'ERROR MESSAGE (should be more than twenty characters)' at views (process: 19900, thread: 19280)
+CRITICAL 2021-08-12 23:36:51,725: 'CRITICAL MESSAGE' at views (process: 19900, thread: 19280)

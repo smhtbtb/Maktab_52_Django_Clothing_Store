@@ -14,28 +14,32 @@
                 <li><a href="#">{% trans 'Main Info' %}</a></li>
                 <li><a href="#">{% trans 'Update Info' %}</a></li>
                 <li><a href="#">{% trans 'Change Password' %}</a></li>
-                <li><a href="#">{% trans 'Addresses' %}</a></li>
+                <li><a href="{% url 'customer:address_create' %}">{% trans 'Addresses' %}</a></li>
                 <li><a href="#">{% trans 'Shopping History' %}</a></li>
                 <li><a href="{% url 'customer:logout' %}">{% trans 'Logout' %}</a></li>
 
             </div>
         </div>
         <div class="row">
-            <div class="information main-info">
+            <div class="col-12 information main-info active" style="margin: 15px">
+                <h3>{% trans 'Phone:' %} {{ user.phone }}</h3>
+                {% if user.first_name %}<p>{% trans 'First Name:' %} {{ user.first_name }}</p>{% endif %}
+                {% if user.last_name %}<p>{% trans 'Last Name:' %} {{ user.last_name }}</p>{% endif %}
+                <p>{{ user.address_set }}</p>
 
             </div>
-            <div class="information update-info">
-
-            </div>
-            <div class="information change-password">
-
-            </div>
-            <div class="information addresses">
-
-            </div>
-            <div class="information history">
-
-            </div>
+{#            <div class="col information update-info">#}
+{##}
+{#            </div>#}
+{#            <div class="col information change-password">#}
+{##}
+{#            </div>#}
+{#            <div class="col information addresses">#}
+{##}
+{#            </div>#}
+{#            <div class="col information history">#}
+{##}
+{#            </div>#}
         </div>
 
 
