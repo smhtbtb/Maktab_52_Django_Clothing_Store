@@ -4,42 +4,48 @@
 {% block title %}{% trans 'Register' %}{% endblock %}
 
 {% block section1 %}
-    <h2 style="margin: 10px">Registration</h2><br>
-    <form action="" method="post">
-        {% csrf_token %}
-        {% for field in registration_form %}
-            <h5>
-                {{ field.label_tag }}
-                {{ field }}
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6" style="border: 3px solid #26d63b; padding: 20px; border-radius: 10px; margin-bottom: 50px;
+                 box-shadow: 0 4px 8px 0 rgba(0,0,0,0.45), 0 6px 20px 0 rgba(0,0,0,0.45);">
+            <center>
+                <h2 style="margin: 10px;">Registration</h2><br>
+                <form action="" method="post" style="margin-bottom: 10px">
+                    {% csrf_token %}
+                    {% for field in registration_form %}
+                        <h5>
+                            {{ field.label_tag }}
+                            {{ field }}
 
-                {% if field.help_text %}
-                    <small style="color: gray">{{ field.help_text }}</small>
-                {% endif %}
+                            {% if field.help_text %}
+                                <p style="color: gray; font-size: 12px; margin: 5px">{{ field.help_text }}</p>
+                            {% endif %}
 
-                {% for error in field.errors %}
-                    <p style="color: red">{{ error }}</p>
-                {% endfor %}
-            </h5>
+                            {% for error in field.errors %}
+                                <p style="color: red; font-size: 15px">{{ error }}</p>
+                            {% endfor %}
+                        </h5>
 
-        {% endfor %}
-        <button type="submit" style="margin: 5px; border: none;
+                    {% endfor %}
+                    <button type="submit" style="margin: 5px; border: none;
              color: rgba(6,172,26,0.83); border-bottom: 3px solid #26d63b;">{% trans 'Register' %}</button>
 
-    </form>
-    <div>
-        <a href="{% url 'customer:login' %}" style="text-decoration: none; font-size: 15px;
+                </form>
+                <div>
+                    <a href="{% url 'customer:login' %}" style="text-decoration: none; font-size: 12px;
              border: 2px solid #26d63b; border-radius: 10px; padding: 2px; margin: 5px; color: #0f8e25;">
-            {% trans "Do you have account?" %}</a>
+                        {% trans "Do you have account?" %}</a>
+                </div>
+            </center>
+        </div>
+        <div class="col-3"></div>
+
+        {#    <form action="" method="post">#}
+        {#        {% csrf_token %}#}
+        {#        {{ form.as_p }}#}
+        {#        <input type="submit">#}
+        {#    </form>#}
     </div>
 
-    {#    <form action="" method="post">#}
-    {#        {% csrf_token %}#}
-    {#        {{ form.as_p }}#}
-    {#        <input type="submit">#}
-    {#    </form>#}
-
-
 {% endblock %}
-
-
 

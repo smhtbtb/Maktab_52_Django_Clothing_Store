@@ -5,6 +5,10 @@
 
 {% block extrahead %}{% endblock %}
 
+{% block extrascript %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock %}
+
 {% block section1 %}
     <center>
         <div class="row">
@@ -15,7 +19,18 @@
         </div>
         <div class="row">
             <div class="col" style="margin: 10px">
-                <input type="number" value="1" min="1" class="form-control-sm"><a href="#" style="color: #26d63b"><i class="fa fa-shopping-basket"></i></a>
+                <input type="hidden" class="product-id" value="{{ product.id }}">
+                <input type="hidden" class="product-name" value="{{ product.name }}">
+
+                <div class="col-1">
+                    <input type="number" value="1" min="1" class="form-control" id="product-number">
+                </div>
+                <div class="col-1">
+                    <button style="color: #26d63b" type="button" id="addToCartBtn"><i class="fa fa-shopping-basket"></i>
+                    </button>
+                    <br>
+                </div>
+
             </div>
         </div>
 
@@ -51,5 +66,18 @@
         {% endif %}
     </center>
 {% endblock %}
+
+
+<script>
+    $(document).on('click', "#addToCartBtn", function () {
+        alert("hi");
+        {#const _num = $('#product-number').val();#}
+        {#const _productID = {{ product.id }};#}
+        {#const _productNAME = {{ product.name }};#}
+        {#const _productPRICE = {{ product.price }};#}
+        {#console.log(_num, _productID, _productNAME, 'hiii');#}
+    })
+
+</script>
 
 

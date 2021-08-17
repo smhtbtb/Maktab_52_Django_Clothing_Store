@@ -46,12 +46,12 @@ class Order(BaseModel, TimestampMixin):
         return f'{self.user}, {self.status} ({self.payment_type})'
 
     def total_price(self):
-        pass
+        return sum(map(lambda o: o.item_price(), self.orders.all()))
 
 
 class OrderItem(BaseModel, TimestampMixin):
     number = models.PositiveIntegerField(default=1)
-    order = models.ForeignKey(verbose_name=_('Order'), to=Order, on_delete=models.DO_NOTHING)
+    order = models.ForeignKey(verbose_name=_('Order'), to=Order, on_delete=models.DO_NOTHING, related_name='orders')
     product = models.ForeignKey(verbose_name=_('Product'), to=Product, on_delete=models.DO_NOTHING)
 
     class Meta:

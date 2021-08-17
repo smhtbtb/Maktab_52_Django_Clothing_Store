@@ -1,0 +1,33 @@
+{% extends 'base_temp/base.html' %}
+{% load i18n static %}
+
+{% block title %}{% trans 'Profile' %}{% endblock %}
+
+
+{% block extrahead %}
+    <link rel="stylesheet" type="text/css" href="{% static 'customer_st/profile.css' %}">{% endblock %}
+
+{% block section1 %}
+    <div class="row">
+        <center>
+
+            <div class="col-1"></div>
+            <div class="col-10" style="margin-bottom: 30px">
+                <div class="nav">
+                    <li><a href="{% url 'customer:profile_detail' %}">{% trans 'Main Info' %}</a></li>
+                    <li><a href="{% url 'customer:update_info' user.id %}">{% trans 'Update Info' %}</a></li>
+                    <li><a href="{% url 'customer:change_password' %}">{% trans 'Change Password' %}</a></li>
+                    <li><a href="{% url 'customer:address_create' %}">{% trans 'Addresses' %}</a></li>
+                    <li><a href="#">{% trans 'Shopping History' %}</a></li>
+                    <li><a href="{% url 'customer:logout' %}">{% trans 'Logout' %}</a></li>
+
+                </div>
+            </div>
+            <div class="col-1"></div>
+        </center>
+
+        <div>{% block dashboard %}{% endblock %}</div>
+
+    </div>
+{% endblock %}
+

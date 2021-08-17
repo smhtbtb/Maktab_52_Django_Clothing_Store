@@ -20,13 +20,16 @@ from django.contrib import admin
 # from django.templatetags.static import static
 from django.urls import path, include
 
+from landing.views import Landing
 
 urlpatterns = [
+    path('', Landing.as_view(), name='landing_view'),
     path('admin/', admin.site.urls),
     path('customer/', include('customer.urls')),
     path('core/', include('core.urls')),
     # path('accounts/', include('django.contrib.auth.urls')),
     path('product/', include('product.urls')),
+    path('order/', include('order.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # if settings.DEBUG:

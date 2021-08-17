@@ -1,0 +1,28 @@
+{% extends 'customer_temp/base_dashboard.html' %}
+{% load i18n %}
+
+{% block title %}{% trans 'Update Information' %}{% endblock %}
+
+{% block dashboard %}
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <center>
+                <form method="post" class="form-control" style="background-color: rgba(0,0,0,0.21)">{% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value={% trans "Update" %} ; style="margin: 5px 5px 20px;border: none;
+             color: rgba(6,172,26,0.83); border-bottom: 3px solid #26d63b; padding: 5px">
+                </form>
+            </center>
+        </div>
+        <div class="col-3"></div>
+
+        {#    <form action="" method="post">#}
+        {#        {% csrf_token %}#}
+        {#        {{ form.as_p }}#}
+        {#        <input type="submit">#}
+        {#    </form>#}
+    </div>
+
+{% endblock %}
+

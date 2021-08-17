@@ -4,7 +4,7 @@
 <html lang="{{ LANGUAGE_CODE|default:"en-us" }}" dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr,auto' }}">
 
 <head>
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% trans 'Clothing Store' %} | {% block title %}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static "core_st/bootstrap.min.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "core_st/base.css" %}">
     {#<link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}">#}
@@ -65,7 +65,7 @@
                 {% if not user.phone %}<li><a href="{% url 'customer:login' %}">{% trans 'Login' %}</a></li>
                 {% else %}<li><a href="{% url 'customer:profile_detail' %}">{{ user.phone }}|{% trans 'Profile' %}</a></li>
                 {% endif %}
-                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                <li><a href="{% url 'order:cart' %}"><i class="fa fa-shopping-cart"></i></a></li>
             </div>
 
             <div class="search-icon">
@@ -101,7 +101,7 @@
     </div>
 
 
-    <footer style="display:table;">
+    <footer>
         <div class="footer-content">
             <h3>{% trans 'Clothing Store' %}</h3>
             <p>{% trans "Our store, after the successful experience of online stores, entered the field of fashion, clothing and lifestyle in a specialized way to repeat a sweet experience in a new format. In our store you can find everything related to fashion and clothing, from women's clothing, men's clothing and children's clothing to bags and shoes with special discounts at auctions, and simply buy a complete set of the latest reputable brands." %}</p>

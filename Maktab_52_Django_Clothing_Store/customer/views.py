@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
@@ -48,7 +48,7 @@ from rest_framework import generics, permissions
 # def profile_detail(request):
 #     return render(request, 'customer_temp/profile-datail.html')
 
-from customer.forms import RegistrationForm, AddressFrom
+from customer.forms import RegistrationForm, AddressFrom, UpdateInfoForm, MyPasswordChangeForm
 from customer.permissions import IsSuperUser, IsOwner
 from customer.serializers import *
 
@@ -62,9 +62,9 @@ class UserLoginForm(AuthenticationForm):
         super(UserLoginForm, self).__init__(*args, **kwargs)
 
     username = forms.CharField(widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': '', 'id': 'hello'}))
+        attrs={'class': 'form-control', 'placeholder': '', 'id': 'username'}))
     password = forms.CharField(widget=forms.PasswordInput(
-        attrs={'class': 'form-control', 'placeholder': '', 'id': 'hi'}
+        attrs={'class': 'form-control', 'placeholder': '', 'id': 'password'}
     ))
 
 
@@ -99,19 +99,29 @@ def register(request):
 #         return super().form_valid(form)
 
 
-class ProfileView(LoginRequiredMixin, TemplateView):
-    # permission_required = 'auth.see_profile'
+class ProfileView(LoginRequiredMixin, generic.ListView):
+    model = User
     template_name = 'customer_temp/profile-datail.html'
-    # extra_context = {
-    #     'address': User.owner_set.all()
-    # }
 
 
-# class MyLogoutView(LogoutView):
-#     pass
+class UpdateInfo(LoginRequiredMixin, generic.UpdateView):
+    model = User
+    # fields = ['phone', 'first_name', 'last_name', 'email']
+    form_class = UpdateInfoForm
+    template_name = 'customer_temp/update_info_form.html'
+    success_url = reverse_lazy('customer:profile_detail')
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(self.model, pk=self.request.user.pk)
 
 
-class AddressCreateView(generic.FormView):
+class MyPasswordChangeView(PasswordChangeView):
+    form_class = MyPasswordChangeForm
+    template_name = "customer_temp/change_password.html"
+    success_url = reverse_lazy('customer:profile_detail')
+
+
+class AddressCreateView(LoginRequiredMixin, generic.FormView):
     form_class = AddressFrom
     template_name = 'customer_temp/address_create.html'
     success_url = reverse_lazy('customer:profile_detail')
@@ -125,7 +135,7 @@ class AddressCreateView(generic.FormView):
 
 
 # ______________________________________________________________________________
-# TODO API
+# API VIEW
 
 class UserListApi(generics.ListAPIView):
     serializer_class = UserBriefSerializer
@@ -146,7 +156,7 @@ class UserDetailApi(generics.ListAPIView):
 class AddressListApi(generics.ListAPIView):
     serializer_class = AddressBriefSerializer
     permission_classes = [
-        permissions.IsAuthenticated
+        IsSuperUser
     ]
 
     def get_queryset(self):
@@ -159,3 +169,7 @@ class AddressDetailApi(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [
         IsOwner
     ]
+
+
+# TODO Login Register Logout
+

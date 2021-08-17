@@ -58,7 +58,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'core.middleware.TimingMiddleware'
+    # 'core.middleware.TimingMiddleware'
 ]
 
 ROOT_URLCONF = 'Maktab_52_Django_Clothing_Store.urls'

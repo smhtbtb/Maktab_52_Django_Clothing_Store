@@ -37,30 +37,43 @@
 
 
 {% block section1 %}
-    <div style="text-align: center; align-content: center; justify-content: center; place-content: center;">
-        <form method="post" enctype="application/x-www-form-urlencoded">{% csrf_token %}
+    <center>
+        <div style="text-align: center; align-content: center; justify-content: center; place-content: center;"
+             class="row">
+            <div class="col-3"></div>
 
-            <div class="form-group">
+            <div class="col-6"
+                 style="border: 3px solid #26d63b; padding: 20px; border-radius: 10px; margin-bottom: 50px;
+                 box-shadow: 0 4px 8px 0 rgba(0,0,0,0.45), 0 6px 20px 0 rgba(0,0,0,0.45);">
+                <form method="post" enctype="application/x-www-form-urlencoded">{% csrf_token %}
 
-                <label for="{{ form.username.id_for_label }}">Phone:</label>
-                {{ form.username }}
-                <p style="font-size: 15px; color: red">{{ form.username.errors }}</p>
+                    <div class="form-group">
 
-            </div>
-            <div class="form-group">
+                        <label for="{{ form.username.id_for_label }}">Phone:</label>
+                        {{ form.username }}
+                        <p style="font-size: 15px; color: red">{{ form.username.errors }}</p>
 
-                <label for="{{ form.password.id_for_label }}">Password:</label>
-                {{ form.password }}
-                <p style="font-size: 15px; color: red">{{ form.password.errors }}</p>
-            </div>
-            <p style="font-size: 15px; color: red">{{ form.non_field_errors }}</p>
-            <button type="submit" style="margin: 5px; border: none;
+                    </div>
+                    <div class="form-group">
+
+                        <label for="{{ form.password.id_for_label }}">Password:</label>
+                        {{ form.password }}
+                        <p style="font-size: 15px; color: red">{{ form.password.errors }}</p>
+                    </div>
+                    <p style="font-size: 15px; color: red">{{ form.non_field_errors }}</p>
+                    <button type="submit" style="margin: 5px 5px 20px;border: none;
              color: rgba(6,172,26,0.83); border-bottom: 3px solid #26d63b;">{% trans 'Login' %}</button>
-        </form>
-        <div>
-            <a href="{% url 'customer:register' %}" style="text-decoration: none; font-size: 15px;
+                </form>
+                <div>
+                    <a href="{% url 'customer:register' %}" style="text-decoration: none; font-size: 12px;
              border: 2px solid #26d63b; border-radius: 10px; padding: 2px; margin: 5px; color: #0f8e25;">
-                {% trans "Don't you have any account?" %}</a>
+                        {% trans "Don't you have any account?" %}</a>
+                </div>
+            </div>
+
+            <div class="col-3"></div>
+
+
         </div>
-    </div>
+    </center>
 {% endblock %}

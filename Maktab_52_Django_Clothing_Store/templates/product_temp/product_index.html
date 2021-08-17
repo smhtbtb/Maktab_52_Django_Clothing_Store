@@ -9,9 +9,11 @@
 <div class="s1">
     <center>
         {% block section1 %}
+            {% block slide %}{% endblock %}
+
             <div class="row">
                 {% for prdct in products %}
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3" style="margin: 20px; align-content: center; text-align: center">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3" style="margin: 0; align-content: center; text-align: center">
                         <a href="{% url 'product:product_detail' prdct.id %}">{% include 'product_temp/product_card_view.html' with product=prdct %}</a>
                     </div>
                 {% endfor %}

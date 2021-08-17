@@ -1,45 +1,32 @@
-{% extends 'base_temp/base.html' %}
+{% extends 'customer_temp/base_dashboard.html' %}
 {% load i18n static %}
 
-{% block title %}{% trans 'Profile' %}{% endblock %}
 
+{% block dashboard %}
+    <div class="row">
 
-{% block extrahead %}
-    <link rel="stylesheet" type="text/css" href="{% static 'customer_st/profile.css' %}">{% endblock %}
-
-{% block section1 %}
-    <div class="col">
-        <div class="row">
-            <div class="nav">
-                <li><a href="#">{% trans 'Main Info' %}</a></li>
-                <li><a href="#">{% trans 'Update Info' %}</a></li>
-                <li><a href="#">{% trans 'Change Password' %}</a></li>
-                <li><a href="{% url 'customer:address_create' %}">{% trans 'Addresses' %}</a></li>
-                <li><a href="#">{% trans 'Shopping History' %}</a></li>
-                <li><a href="{% url 'customer:logout' %}">{% trans 'Logout' %}</a></li>
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 information main-info active" style="margin: 15px">
-                <h3>{% trans 'Phone:' %} {{ user.phone }}</h3>
-                {% if user.first_name %}<p>{% trans 'First Name:' %} {{ user.first_name }}</p>{% endif %}
-                {% if user.last_name %}<p>{% trans 'Last Name:' %} {{ user.last_name }}</p>{% endif %}
-                <p>{{ user.address_set }}</p>
-
-            </div>
-{#            <div class="col information update-info">#}
-{##}
-{#            </div>#}
-{#            <div class="col information change-password">#}
-{##}
-{#            </div>#}
-{#            <div class="col information addresses">#}
-{##}
-{#            </div>#}
-{#            <div class="col information history">#}
-{##}
-{#            </div>#}
+        <div class="col-12 information main-info active" style="margin: 15px">
+            <center>
+                <h2 style="margin: 20px">{% trans 'Personal Profile' %}</h2>
+                <table style="border: 1px solid black; padding: 10px; text-align: center;">
+                    {#                <h4 style="margin: 20px">{% trans 'Phone:' %} {{ user.phone }}</h4>#}
+                    {#                {% if user.first_name %}<p>{% trans 'First Name:' %} {{ user.first_name }}</p>{% endif %}#}
+                    {#                {% if user.last_name %}<p>{% trans 'Last Name:' %} {{ user.last_name }}</p>{% endif %}#}
+                    {#                <p>{{ user.address_set }}</p>#}
+                    <tr>
+                        <th style="border: 1px solid black; padding: 10px; text-align: center; background-color: rgba(35,194,54,0.67)">{% trans 'Phone' %}</th>
+                        <th style="border: 1px solid black; padding: 10px; text-align: center; background-color: rgba(35,194,54,0.67)">{% trans 'First Name' %}</th>
+                        <th style="border: 1px solid black; padding: 10px; text-align: center; background-color: rgba(35,194,54,0.67)">{% trans 'Last Name' %}</th>
+                        <th style="border: 1px solid black; padding: 10px; text-align: center; background-color: rgba(35,194,54,0.67)">{% trans 'Email' %}</th>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black; padding: 10px; text-align: center;">{{ user.phone }}</td>
+                        <td style="border: 1px solid black; padding: 10px; text-align: center;">{{ user.first_name }}</td>
+                        <td style="border: 1px solid black; padding: 10px; text-align: center;">{{ user.last_name }}</td>
+                        <td style="border: 1px solid black; padding: 10px; text-align: center;">{{ user.email }}</td>
+                    </tr>
+                </table>
+            </center>
         </div>
 
 

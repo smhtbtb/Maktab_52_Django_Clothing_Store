@@ -1,0 +1,28 @@
+.slider {
+  width: 900px; /* This width should be given to the inner image as well [ Look at line 16 ] */
+  height: 500px; /* The same as width, you need to set it also to the inner image [ Look at line 17 ] */
+  overflow: hidden; /* To hide other slides */
+  margin: 0 auto 30px;
+  border-radius: 30px;
+}
+.slider .slider-container {
+  width: 300%; /* Calculate it like that: How many slides do you have * 100%  => for example: here we have 3 slides so it would be 300%, if you added an extra slide, increase it to 400%, and so on */
+}
+.slider .slider-container img {
+  width: 900px;
+  height: 500px;
+  float: left;
+  animation: slideEffect 7s ease infinite;
+}
+@keyframes slideEffect {
+  0% {
+    transform: translatex(0);
+  }
+  50% {
+    transform: translatex(-100%); /* Write the half value of 100% { transaltex() } below */
+  }
+  100% {
+    transform: translatex(-200%); /* To calculate it, use this equation: ( How many slides * 100% ) - 100%. For example: here we have 3 slides, so it would be: ( 3 * 100% ) - 100% = 200% as you notice */
+    left: 0;
+  }
+}

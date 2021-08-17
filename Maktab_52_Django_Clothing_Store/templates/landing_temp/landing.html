@@ -1,0 +1,22 @@
+{% extends 'product_temp/product_index.html' %}
+{% load i18n static %}
+
+{% block title %}{% trans 'Home' %}{% endblock %}
+
+{% block extrahead %}
+    <link rel="stylesheet" type="text/css" href="{% static "product_st/product_index.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "landing_st/landing.css" %}">
+{% endblock %}
+
+{% block slide %}
+    <section class="slider">
+        <div class="slider-container">
+            <img src="{% static 'landing_st/slide_images/slide_men_shoes.jpg' %}" alt="">
+            <img src="{% static 'landing_st/slide_images/slide_women_purse.jpg' %}" alt="">
+            <img src="{% static 'landing_st/slide_images/slide_children_clothes.jpg' %}" alt="">
+        </div>
+    </section>
+
+    <center><h2>{% trans 'All Products' %}</h2></center>
+{% endblock %}
+
