@@ -3,32 +3,43 @@
 
 {% block title %}{% trans 'Product detail' %}{% endblock %}
 
-{% block extrahead %}{% endblock %}
-
-{% block extrascript %}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% block extrahead %}
+    <script src={% static 'product_st/product_detail.js' %}></script>
 {% endblock %}
 
+{% block onload %}"OnloadProductDetail()"{% endblock %}
 {% block section1 %}
     <center>
+        <div style="display: none" id="jsonData-id" data-json="{{ product.id }}"></div>
+        <div style="display: none" id="jsonData-name" data-json="{{ product.name }}"></div>
+        <div style="display: none" id="jsonData-price" data-json="{{ product.price }}"></div>
+        <div style="display: none" id="jsonData-final-price" data-json="{{ product.final_price }}"></div>
+        <div style="display: none" id="jsonData-image" data-json="{{ product.image.url }}"></div>
+        <div style="display: none" id="jsonData-leftovers" data-json="{{ product.leftovers }}"></div>
+
         <div class="row">
             <div class="col">
-                <img src="{{ product.image.url }}" alt=""
+                <img src="{{ product.image.url }}" alt="{{ product.name }} {{ product.color }}"
                      style="height: 450px; width: 350px; border-radius: 8px; margin: 5px auto">
             </div>
         </div>
         <div class="row">
             <div class="col" style="margin: 10px">
-                <input type="hidden" class="product-id" value="{{ product.id }}">
-                <input type="hidden" class="product-name" value="{{ product.name }}">
+                <div class="col-1">
 
-                <div class="col-1">
-                    <input type="number" value="1" min="1" class="form-control" id="product-number">
-                </div>
-                <div class="col-1">
-                    <button style="color: #26d63b" type="button" id="addToCartBtn"><i class="fa fa-shopping-basket"></i>
-                    </button>
-                    <br>
+                    <form id="form" method="post">{% csrf_token %}
+                        {% if product.leftovers %}
+                            {#                            <div style="display: none" id="jsonData-id" data-json="{{ product.id }}"></div>#}
+                            <input type="hidden" name="products" value={{ product.id }}>
+                            <button style="color: #26d63b" type="button" id="addToCartBtn"><i
+                                    class="fa fa-shopping-basket"></i>
+                            </button>
+                        {% else %}
+                            <p>{% trans 'Lack of inventory' %}</p>
+                        {% endif %}
+                        <br>
+                    </form>
+
                 </div>
 
             </div>
@@ -66,18 +77,4 @@
         {% endif %}
     </center>
 {% endblock %}
-
-
-<script>
-    $(document).on('click', "#addToCartBtn", function () {
-        alert("hi");
-        {#const _num = $('#product-number').val();#}
-        {#const _productID = {{ product.id }};#}
-        {#const _productNAME = {{ product.name }};#}
-        {#const _productPRICE = {{ product.price }};#}
-        {#console.log(_num, _productID, _productNAME, 'hiii');#}
-    })
-
-</script>
-
 

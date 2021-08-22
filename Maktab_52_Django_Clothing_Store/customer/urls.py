@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
+from rest_framework_simplejwt.views import TokenRefreshView
 
 from customer.views import *
 from django.contrib.auth import views
@@ -19,13 +20,16 @@ urlpatterns = [
     path('update_info/<int:pk>', UpdateInfo.as_view(), name='update_info'),
     path('change_password/', MyPasswordChangeView.as_view(), name='change_password'),
 
-
-
     # API Views
     path('users_list/', UserListApi.as_view(), name='users_list'),
     path('user_detail/', UserDetailApi.as_view(), name='user_detail'),
 
     path('addresses_list/', AddressListApi.as_view(), name='addresses_list'),
     path('address_detail/<int:pk>', AddressDetailApi.as_view(), name='address_detail'),
+
+    path('api_login/', MyObtainTokenPairView.as_view(), name='token_obtain_pair'),
+    path('api_login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api_register/', RegisterView.as_view(), name='auth_register'),
+    path('api_logout/', user_logout, name='auth_logout'),
 
 ]

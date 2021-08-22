@@ -8,8 +8,12 @@ urlpatterns = [
 
     # path('p/', product_api),
     # path('', CartDetail, name='cart_detail'),
-    path('add-to-cart', add_to_cart, name='add_to_cart'),
-    path('cart', cart_list, name='cart'),
+
+    path('cart_list', CartList.as_view(), name='cart_list'),
+
+    # path('add-to-cart', add_to_cart, name='add_to_cart'),
+    # path('cart', cart_list, name='cart'),
+
     # path('delete-from-cart', delete_cart_item, name='delete-from-cart'),
     # path('update-cart', update_cart_item, name='update-cart'),
 

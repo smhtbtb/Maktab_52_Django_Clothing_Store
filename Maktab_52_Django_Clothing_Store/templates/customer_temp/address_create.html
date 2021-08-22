@@ -7,7 +7,7 @@
         <center>
             <div class="col-3"></div>
             <div class="col-6">
-                <form method="POST" enctype="multipart/form-data" class="form-control"  style="background-color: rgba(0,0,0,0.21)">
+                <form method="POST" id="form" enctype="multipart/form-data" class="form-control"  style="background-color: rgba(0,0,0,0.21)">
 
                     <!-- Security token -->
                     {% csrf_token %}
@@ -15,11 +15,29 @@
                     <!-- Using the formset -->
                     {{ form.as_p }}
 
-                    <input type="submit" value="Submit" style="margin: 5px; border: none; padding: 5px;
+                    <input type="button" id="btn" value="Submit" style="margin: 5px; border: none; padding: 5px;
              color: rgba(6,172,26,0.83); border-bottom: 3px solid #26d63b;">
                 </form>
             </div>
             <div class="col-3"></div>
         </center>
     </div>
+
+    <script>
+        console.log('salam')
+        $('#btn').on('click', function () {
+            $.ajax({
+                'url': "{% url 'customer:address_create' %}",
+                'type': "post",
+                'data': $('#form').serialize(),
+                success: function (resp, stat) {
+                    console.log(stat)
+                    console.log(resp)
+                    alert('Address added successfully')
+                }
+            })
+        })
+    </script>
+
+
 {% endblock %}

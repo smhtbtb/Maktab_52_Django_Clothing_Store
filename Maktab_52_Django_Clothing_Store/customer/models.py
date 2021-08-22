@@ -38,7 +38,7 @@ class User(AbstractUser):
 
     objects = MyUserManager()
 
-    phone = models.CharField(verbose_name=_('Phone'), max_length=15, unique=True)
+    phone = models.CharField(verbose_name=_('Phone'), max_length=15, unique=True, validators=[phone_validator])
     invite_code = models.CharField(verbose_name=_('Invite Code'), max_length=15, null=True, blank=True, default=None,
                                    help_text=_('If you have not invite code do not fill this field'))
 

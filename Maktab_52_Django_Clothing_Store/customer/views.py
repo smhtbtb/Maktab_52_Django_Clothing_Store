@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -11,6 +11,7 @@ from django.urls import reverse_lazy, reverse
 from django.views import View, generic
 from django.views.generic import TemplateView
 from rest_framework import generics, permissions
+from django.utils.translation import gettext_lazy as _
 
 # Create your views here.
 
@@ -47,6 +48,10 @@ from rest_framework import generics, permissions
 # @permission_required('auth.see_profile')
 # def profile_detail(request):
 #     return render(request, 'customer_temp/profile-datail.html')
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from customer.forms import RegistrationForm, AddressFrom, UpdateInfoForm, MyPasswordChangeForm
 from customer.permissions import IsSuperUser, IsOwner
@@ -124,7 +129,7 @@ class MyPasswordChangeView(PasswordChangeView):
 class AddressCreateView(LoginRequiredMixin, generic.FormView):
     form_class = AddressFrom
     template_name = 'customer_temp/address_create.html'
-    success_url = reverse_lazy('customer:profile_detail')
+    success_url = reverse_lazy('customer:address_create')
 
     def form_valid(self, form):
         address = form.save(commit=False)
@@ -171,5 +176,22 @@ class AddressDetailApi(generics.RetrieveUpdateDestroyAPIView):
     ]
 
 
-# TODO Login Register Logout
+class MyObtainTokenPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = RegisterSerializer
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def user_logout(request):
+
+    # request.user.auth_token.delete()
+
+    logout(request)
+
+    return Response(_('User Logged out successfully'))
 

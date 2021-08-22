@@ -1,49 +1,233 @@
 {% extends 'base_temp/base.html' %}
-{% load static %}
+{% load static i18n %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" type="text/css" href="{% static "order_st/basket_cart.css" %}">
+{% endblock %}
+
 {% block section1 %}
-<main class="container my-4" id="cartList">
-	<!-- Featured Products -->
-	<h3 class="my-4 border-bottom pb-1">Cart ({{totalitems}})</h3>
-	<table class="table table-bordered">
-		<thead>
-			<tr>
-				<th>Product</th>
-				<th>Qty</th>
-				<th>Price</th>
-				<th>Total</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for product_id,item in cart_data.items %}
-			<tr>
-				<td>
-					<img src="/media/{{item.image}}" width="50" />
-					<p><a href="/product/{{item.title|slugify}}/{{product_id}}">{{item.title}}</a></p>
-				</td>
-				<td>
-					<input type="number" class="product-qty-{{product_id}}" value="{{item.qty}}" style="vertical-align: bottom;" />
-					<button class="btn btn-sm btn-primary update-item" data-item="{{product_id}}"><i class="fa fa-sync"></i></button>
-					<button class="btn btn-sm btn-danger delete-item" data-item="{{product_id}}"><i class="fa fa-trash"></i></button>
-				</td>
-				<td>$ {{item.price}}</td>
-				<td>$ {% widthratio item.price 1 item.qty %}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-		<tfoot>
-			<tr>
-				<td colspan="2"></td>
-				<th>Total</th>
-				<th>Rs. {{total_amt}}</th>
-			</tr>
-			{% if totalitems %}
-			<tr>
-				<td colspan="4" style="text-align: right">
-					<a href="#" class="btn btn-dark btn-sm">Checkout <i class="fa fa-long-arrow-alt-right"></i></a>
-				</td>
-			</tr>
-			{% endif %}
-		</tfoot>
-	</table>
-</main>
+    <main class="container my-4" id="cartList" style="border: 3px solid #26d63b; border-radius: 50px">
+        <center><h1 style="font-style: italic; color: #26d63b; margin-top: 20px">{% trans 'Cart List' %}</h1></center>
+        <hr style="border: 1px solid #26d63b; color: #26d63b">
+        <!-- Featured Products -->
+        <h3 class="my-4 border-bottom pb-1">{% trans 'Total Items: ' %} *<span
+                id="total_items">{{ order.orders.count }}</span>*</h3>
+        <center>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>{% trans 'Product' %}</th>
+                    <th>{% trans 'Qty' %}</th>
+                    <th>{% trans 'Price' %}</th>
+                    <th>{% trans 'Total' %}</th>
+                    <th>{% trans 'Update Quantity' %}</th>
+                    <th>{% trans 'Delete Item' %}</th>
+                </tr>
+                </thead>
+
+
+                <tbody id="tbody">
+                {% for i in cart_items %}
+                    <tr class="tr">
+
+                        <td>
+                            <a href="{% url 'product:product_detail' i.product.id %}"><img
+                                    src="{{ i.product.image.url }}" width="80" height="80" alt="{{ i.product.name }}"/></a>
+                        </td>
+
+                        <td>
+                            <input type="number" class="form-control-sm" value="{{ i.number }}" min="1"
+                                   max="{{ i.product.leftovers }}"
+                                   style="vertical-align: center;"/>
+                        </td>
+
+                        <td>{{ i.product.final_price }}</td>
+
+                        <td>{{ i.item_price }}</td>
+
+                        <td>
+                            <button style="border: none; color: red; margin: 10px; background-color: inherit"
+                                    type="button"><i class="fa fa-minus-square"></i></button>
+                            <button style="border: none; color: green; margin: 10px; background-color: inherit"
+                                    type="button"><i class="fa fa-plus-square"></i></button>
+                        </td>
+
+                        <td>
+                            {#                            {% for x in n %}#}
+                            <form id="delete_form{{ forloop.counter0 }}" method="post">{% csrf_token %}
+                                <input type="hidden" name="will_delete" value={{ i.product.id }}>
+                                <button type="button" style="color: darkred; border: none; background-color: inherit;
+                                 font-style: italic; font-size: 1rem"
+                                        id="will_delete_btn{{ forloop.counter0 }}">{% trans 'Delete Product' %}
+                                </button>
+                            </form>
+                            {#                            {% endfor %}#}
+                        </td>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+                <tfoot>
+                <tr>
+                    <td colspan="4"></td>
+                    <th>{% trans 'Total Amount' %}</th>
+                    <th id="total_amt">{{ order.total_price }}</th>
+                </tr>
+                </tfoot>
+
+
+            </table>
+
+        </center>
+        <button style="margin: 10px 10px 20px 20px;border: none;
+             color: gray; border-bottom: 3px solid gray;">{% trans 'Cancel' %}</button>
+        <button style="float: right; margin: 10px 20px 20px 10px;border: none;
+             color: rgba(6,172,26,0.83); border-bottom: 3px solid #26d63b;">{% trans 'Next' %}</button>
+    </main>
+
+
+    <script>
+        console.log('hey')
+
+        function range(start, end) {
+            if (start === end) return [start]
+            const ans = [];
+            for (let i = start; i <= end; i++) {
+                ans.push(i);
+            }
+            return ans;
+        }
+
+        let n = range(0, 100)
+        for (let i in n) {
+            $('#will_delete_btn'+i).on('click', function () {
+                alert('Successfully Deleted');
+                $.post("{% url 'order:cart_list' %}", $('#delete_form'+i).serialize(),
+                    function () {
+                        console.log($('#delete_form').serialize());
+                    },
+                )
+            });
+        }
+
+        {#function readCookie(name) {#}
+        {#    const nameEQ = name + "=";#}
+        {#    const ca = document.cookie.split('-');#}
+        {#    console.log(ca)#}
+        {#    for (let i = 0; i < ca.length; i++) {#}
+        {#        let c = ca[i];#}
+        {#console.log(c)#}
+        {#    }#}
+        {#    return null;#}
+        {##}
+        {#let cart = readCookie('cart');#}
+        {#console.log(cart)#}
+
+
+        {#  Local Storage  #}
+
+
+        {#console.log(localStorage.getItem('products'))#}
+        {#let products = JSON.parse(localStorage.getItem('products'))#}
+        {#document.getElementById('total_items').innerHTML = products.length#}
+        {##}
+        {#for (let i = 0; i < products.length; i++) {#}
+        {#    const id = products[i]['id'];#}
+        {#    const name = products[i]['name'];#}
+        {#    const price = products[i]['price'];#}
+        {#    const final_price = products[i]['final_price'];#}
+        {#    const image = products[i]['image'];#}
+        {#    const leftovers = products[i]['leftovers'];#}
+        {#    const qty = products[i]['qty'];#}
+        {##}
+        {#    let tr1 = $("<tr></tr>").appendTo('#tbody')#}
+        {#    $(tr1).attr('id', 'tr1' + [i])#}
+        {##}
+        {# td1 #}
+        {#    let td1 = $("<td></td>").appendTo('#tr1' + [i])#}
+        {#    $(td1).attr('id', 'td1' + [i])#}
+        {# td2 #}
+        {#    let td2 = $("<td class='form-control'></td>").appendTo('#tr1' + [i])#}
+        {#    $(td2).attr('id', 'td2' + [i])#}
+        {# td3 #}
+        {#    let td3 = $("<td></td>").appendTo('#tr1' + [i])#}
+        {#    $(td3).attr('id', 'td3' + [i])#}
+        {# td4 #}
+        {#    let td4 = $("<td></td>").appendTo('#tr1' + [i])#}
+        {#    $(td4).attr('id', 'td4' + [i])#}
+        {# td5 #}
+        {#    let td5 = $("<td></td>").appendTo('#tr1' + [i])#}
+        {#    $(td5).attr('id', 'td5' + [i])#}
+        {# td6 #}
+        {#    let td6 = $("<td></td>").appendTo('#tr1' + [i])#}
+        {#    $(td6).attr('id', 'td6' + [i])#}
+        {##}
+        {# td1 #}
+        {##}
+        {#    let p = $("<p></p>")#}
+        {#    let a = $("<a />", {#}
+        {#        id: id,#}
+        {#        name: "link",#}
+        {#        href: "http://127.0.0.1:8000/product/product_detail/" + id,#}
+        {#        text: name#}
+        {#    }).appendTo(p)#}
+        {#    let img = $('<img />', {#}
+        {#        id: id,#}
+        {#        src: image,#}
+        {#        alt: id,#}
+        {#        width: 80,#}
+        {#        height: 80,#}
+        {#    });#}
+        {#    $('#td1' + [i]).append(img, p)#}
+        {##}
+        {#  td2  #}
+        {##}
+        {#    let input = $('<input>', {#}
+        {#        type: 'number',#}
+        {#        id: 'input' + [i],#}
+        {#        value: qty,#}
+        {#        min: 1,#}
+        {#        max: leftovers,#}
+        {#    });#}
+        {#    $('#td2' + [i]).append(input)#}
+        {##}
+        {#  td3  #}
+        {##}
+        {#    let pr = $("<p></p>").text(parseInt(final_price))#}
+        {#    $('#td3' + [i]).append(pr)#}
+        {##}
+        {#  td4  #}
+        {##}
+        {#    let ttl = $("<p></p>").text(parseInt(final_price) * parseInt(input.val()))#}
+        {#    $('#td4' + [i]).append(ttl)#}
+        {##}
+        {#  td5  #}
+        {##}
+        {##}
+        {#    let update = $(`<button></button>`)#}
+        {#    let min = $('<i>', {#}
+        {#        class: 'fa fa-minus-square',#}
+        {#        font: '10px'#}
+        {#    }).append(update)#}
+        {#    $('#td5' + [i]).append(update)#}
+        {##}
+        {#  td6  #}
+        {##}
+        {#    let deleted = $("<button>X</button>")#}
+        {#    $('#td6' + [i]).append(deleted)#}
+        {##}
+        {##}
+
+        {##}
+        {#const list = []#}
+        {#for (let i = 0; i < products.length; i++) {#}
+        {#    let x = parseInt(products[i]['final_price']) * parseInt($('#input' + [i]).val())#}
+        {#    list.push(parseInt(x))#}
+
+        {##}
+        {#let ttl_amnt = list.reduce((a, b) => a + b, 0)#}
+        {#$('#total_amt').append(ttl_amnt)#}
+
+    </script>
 {% endblock %}

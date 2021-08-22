@@ -15,6 +15,11 @@ urlpatterns = [
     path('product_card_view/<int:pk>', ProductCardView.as_view(), name='product_card_view'),
     path('product_detail/<int:pk>', ProductDetail.as_view(), name='product_detail'),
 
+    path('scookie', scookie),
+    path('gcookie', gcookie),
+    path('test_cookie', test_cookie),
+    path('addcookie', addcookie),
+
     # Api Views
     path('products_listcreate', ProductListCreateApiView.as_view(), name='api_products_listcreate'),
     path('products_men_listcreate', ProductMenListCreateApiView.as_view(), name='api_products_men_listcreate'),
