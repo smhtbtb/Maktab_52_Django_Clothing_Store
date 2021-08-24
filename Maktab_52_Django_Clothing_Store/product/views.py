@@ -83,6 +83,7 @@ def test_cookie(request):
     else:
         return HttpResponse(f"Your favorite cart is {request.COOKIES['cart']}")
 
+
 # __________________________________________________________________________________
 # TODO REST API
 

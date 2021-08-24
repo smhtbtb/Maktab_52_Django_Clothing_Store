@@ -20,5 +20,9 @@ urlpatterns = [
     # Api Views
 
     path('orders_listcreate', OrderListCreateApiView.as_view(), name='api_orders_listcreate'),
+    path('orders_detail_view/<int:pk>', OrderDetailView.as_view(), name='api_orders_detail_view'),
+
+    path('order_item_listcreate', OrderItemListCreateApiView.as_view(), name='api_order_item_listcreate'),
+    path('order_item_detail_view/<int:pk>', OrderItemDetailView.as_view(), name='api_order_item_detail_view'),
 
 ]

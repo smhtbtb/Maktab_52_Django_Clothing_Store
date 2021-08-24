@@ -12,6 +12,7 @@ from django.views.decorators.http import require_POST
 from rest_framework import generics
 
 from order.models import Order
+from order.permissions import *
 from order.serializers import *
 from product.models import Product
 
@@ -39,11 +40,28 @@ class CartList(LoginRequiredMixin, View):
 
                 # Delete
                 delete_item = list(request.COOKIES.get('delete', ''))
-                if delete_item:
-                    print(delete_item[0])
+                if delete_item and delete_item is not None:
+                    # print(delete_item[0])
                     delete_product = Product.objects.get(id=int(delete_item[0]))
                     OrderItem.objects.get(order=order, product=delete_product).delete()
 
+                # update qty +
+                plus = list(request.COOKIES.get('plus', ''))
+                if plus and plus is not None:
+                    # print(plus[0])
+                    plus_product = Product.objects.get(id=int(plus[0]))
+                    plus_item = OrderItem.objects.get(order=order, product=plus_product)
+                    plus_item.number += 1
+                    plus_item.save()
+
+                # update qty -
+                minus = list(request.COOKIES.get('minus', ''))
+                if minus and minus is not None:
+                    # print(minus[0])
+                    minus_product = Product.objects.get(id=int(minus[0]))
+                    minus_item = OrderItem.objects.get(order=order, product=minus_product)
+                    minus_item.number -= 1
+                    minus_item.save()
 
         else:
             new_order = Order.objects.create(user=user)
@@ -54,7 +72,6 @@ class CartList(LoginRequiredMixin, View):
                 OrderItem.objects.create(order=order, product=product)
 
         cart_items = order.orders.all()
-        print(list(range(cart_items.count())))
         # print(cart_items.count())
         resp = render(request, 'order_temp/detail.html', {
             'order': order,
@@ -62,15 +79,28 @@ class CartList(LoginRequiredMixin, View):
             'n': list(range(cart_items.count()))
         })
         resp.set_cookie('delete', '')
+        resp.set_cookie('plus', '')
+        resp.set_cookie('minus', '')
         resp.set_cookie('cart', '')
         return resp
 
     def post(self, request, *args, **kwargs):
         resp = JsonResponse({'x': 'y'})
-        user = request.user
-        delete = request.COOKIES.get('delete', '')
-        resp.set_cookie('delete', request.POST['will_delete'])
-        # print(request.POST['will_delete'])
+        print(request.POST['plus'])
+
+        # resp.set_cookie('delete', request.POST['will_delete'])
+        resp.set_cookie('plus', request.POST['plus'])
+        # resp.set_cookie('minus', request.POST['minus'])
+
+        # d = request.POST.get("will_delete")
+        # if d and d is not None:
+        #     resp.set_cookie('delete', d)
+        # p = request.POST.get('plus')
+        # if p and p is not None:
+        #     resp.set_cookie('plus', p)
+        # m = request.POST.get('minus')
+        # if m and m is not None:
+        #     resp.set_cookie('minus', m)
         return resp
 
 
@@ -158,11 +188,30 @@ class CartList(LoginRequiredMixin, View):
 class OrderListCreateApiView(generics.ListCreateAPIView):
     serializer_class = OrderSerializer
     queryset = Order.objects.all()
+    permission_classes = [
+        IsSuperUser
+    ]
 
-    # def perform_create(self, serializer):
-    #     serializer.save(user=self.request.user)
+
+class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = OrderSerializer
+    queryset = Order.objects.all()
+    permission_classes = [
+        IsSuperUserOrOwner
+    ]
 
 
 class OrderItemListCreateApiView(generics.ListCreateAPIView):
     serializer_class = OrderItemSerializer
-    queryset = Order.objects.all()
+    queryset = OrderItem.objects.all()
+    permission_classes = [
+        IsSuperUser
+    ]
+
+
+class OrderItemDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = OrderItemSerializer
+    queryset = OrderItem.objects.all()
+    permission_classes = [
+        IsSuperUserOrOwnerItem
+    ]

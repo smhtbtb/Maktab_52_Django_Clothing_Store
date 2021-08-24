@@ -22,7 +22,7 @@ urlpatterns = [
 
     # API Views
     path('users_list/', UserListApi.as_view(), name='users_list'),
-    path('user_detail/', UserDetailApi.as_view(), name='user_detail'),
+    path('user_detail/<int:pk>', UserDetailApi.as_view(), name='user_detail'),
 
     path('addresses_list/', AddressListApi.as_view(), name='addresses_list'),
     path('address_detail/<int:pk>', AddressDetailApi.as_view(), name='address_detail'),

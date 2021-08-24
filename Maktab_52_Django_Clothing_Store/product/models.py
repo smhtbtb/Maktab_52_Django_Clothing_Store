@@ -73,7 +73,7 @@ class Product(BaseModel, TimestampMixin):
 class Category(BaseModel):
     name = models.CharField(verbose_name=_('Name'), help_text=_('Name of the category'), max_length=50)
     parent = models.ForeignKey(verbose_name=_('Parent'), to='self', null=True, blank=True, default=None,
-                               related_name=_('children'), on_delete=models.SET_NULL,
+                               related_name='children', on_delete=models.SET_NULL,
                                help_text=_('For example cloth have three parents. Men, Women and Children'))
 
     class Meta:

@@ -7,16 +7,17 @@ from customer.models import *
 
 
 class UserBriefSerializer(serializers.ModelSerializer):
-    # id = serializers.HyperlinkedRelatedField(view_name='customer:user_detail', read_only=True)
+    addresses = serializers.HyperlinkedRelatedField(view_name='customer:address_detail', source='address_set',
+                                                    many=True, read_only=True)
 
     class Meta:
         model = User
-        fields = ['id', 'phone', 'first_name', 'last_name']
+        fields = ['id', 'phone', 'first_name', 'last_name', 'addresses']
 
 
 class UserSerializer(serializers.ModelSerializer):
-    # addresses = serializers.HyperlinkedRelatedField(view_name='customer:address_detail', read_only=True,
-    #                                                 source='address_set')
+    addresses = serializers.HyperlinkedRelatedField(view_name='customer:address_detail', source='address_set',
+                                                    many=True, read_only=True)
 
     class Meta:
         model = User
@@ -24,12 +25,16 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class AddressBriefSerializer(serializers.ModelSerializer):
+    owner = serializers.HyperlinkedRelatedField(view_name='customer:user_detail', read_only=True)
+
     class Meta:
         model = Address
         fields = ['id', 'city', 'owner']
 
 
 class AddressSerializer(serializers.ModelSerializer):
+    owner = serializers.HyperlinkedRelatedField(view_name='customer:user_detail', read_only=True)
+
     class Meta:
         model = Address
         fields = '__all__'

@@ -9,7 +9,7 @@
         <div class="col-6" style="border: 3px solid #26d63b; padding: 20px; border-radius: 10px; margin-bottom: 50px;
                  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.45), 0 6px 20px 0 rgba(0,0,0,0.45);">
             <center>
-                <h2 style="margin: 10px;">Registration</h2><br>
+                <h2 style="margin: 10px;">{% trans 'Registration' %}</h2><br>
                 <form action="" method="post" style="margin-bottom: 10px">
                     {% csrf_token %}
                     {% for field in registration_form %}

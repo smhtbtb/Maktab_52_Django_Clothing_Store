@@ -12,8 +12,13 @@ from django.views import View, generic
 from django.views.generic import TemplateView
 from rest_framework import generics, permissions
 from django.utils.translation import gettext_lazy as _
-
-# Create your views here.
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework_simplejwt.views import TokenObtainPairView
+from customer.forms import RegistrationForm, AddressFrom, UpdateInfoForm, MyPasswordChangeForm
+from customer.permissions import *
+from customer.serializers import *
 
 
 # def login_page(request):
@@ -48,14 +53,6 @@ from django.utils.translation import gettext_lazy as _
 # @permission_required('auth.see_profile')
 # def profile_detail(request):
 #     return render(request, 'customer_temp/profile-datail.html')
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework_simplejwt.views import TokenObtainPairView
-
-from customer.forms import RegistrationForm, AddressFrom, UpdateInfoForm, MyPasswordChangeForm
-from customer.permissions import IsSuperUser, IsOwner
-from customer.serializers import *
 
 
 class MyLoginView(LoginView):
@@ -150,12 +147,15 @@ class UserListApi(generics.ListAPIView):
     ]
 
 
-class UserDetailApi(generics.ListAPIView):
+class UserDetailApi(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-
-    def get_queryset(self):
-        return User.objects.filter(username=self.request.user)
+    permission_classes = [
+        IsSuperUserOrOwner
+    ]
+    #
+    # def get_queryset(self):
+    #     return User.objects.filter(username=self.request.user)
 
 
 class AddressListApi(generics.ListAPIView):
@@ -172,7 +172,7 @@ class AddressDetailApi(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = AddressSerializer
     queryset = Address.objects.all()
     permission_classes = [
-        IsOwner
+        IsSuperUserOrOwnerAddress
     ]
 
 
@@ -188,10 +188,8 @@ class RegisterView(generics.CreateAPIView):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def user_logout(request):
-
     # request.user.auth_token.delete()
 
     logout(request)
 
     return Response(_('User Logged out successfully'))
-

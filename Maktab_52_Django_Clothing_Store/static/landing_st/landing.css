@@ -19,10 +19,10 @@
     transform: translatex(0);
   }
   50% {
-    transform: translatex(-100%); /* Write the half value of 100% { transaltex() } below */
+    transform: translatex(100%); /* Write the half value of 100% { transaltex() } below */
   }
   100% {
-    transform: translatex(-200%); /* To calculate it, use this equation: ( How many slides * 100% ) - 100%. For example: here we have 3 slides, so it would be: ( 3 * 100% ) - 100% = 200% as you notice */
+    transform: translatex(200%); /* To calculate it, use this equation: ( How many slides * 100% ) - 100%. For example: here we have 3 slides, so it would be: ( 3 * 100% ) - 100% = 200% as you notice */
     left: 0;
   }
 }
