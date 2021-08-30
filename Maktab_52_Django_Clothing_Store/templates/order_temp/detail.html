@@ -5,6 +5,8 @@
     <link rel="stylesheet" type="text/css" href="{% static "order_st/basket_cart.css" %}">
 {% endblock %}
 
+{% block title %}{% trans 'Cart List' %}{% endblock %}
+
 {% block section1 %}
     <main class="container my-4" id="cartList" style="border: 3px solid #26d63b; border-radius: 50px">
         <center><h1 style="font-style: italic; color: #26d63b; margin-top: 20px">{% trans 'Cart List' %}</h1></center>

@@ -86,7 +86,7 @@ class CartList(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         resp = JsonResponse({'x': 'y'})
-        print(request.POST['plus'])
+        # print(request.POST['plus'])
 
         # resp.set_cookie('delete', request.POST['will_delete'])
         resp.set_cookie('plus', request.POST['plus'])
