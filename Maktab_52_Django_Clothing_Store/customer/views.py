@@ -16,7 +16,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
-from customer.forms import RegistrationForm, AddressFrom, UpdateInfoForm, MyPasswordChangeForm
+from customer.forms import RegistrationForm, AddressFrom, UpdateInfoForm, MyPasswordChangeForm, UserLoginForm
 from customer.permissions import *
 from customer.serializers import *
 
@@ -52,24 +52,16 @@ from customer.serializers import *
 # # @login_required
 # @permission_required('auth.see_profile')
 # def profile_detail(request):
-#     return render(request, 'customer_temp/profile-datail.html')
+#     return render(request, 'customer_temp/profile-detail.html')
 
 
+# Login View
 class MyLoginView(LoginView):
-    pass
+    template_name = "customer_temp/login.html"
+    authentication_form = UserLoginForm
 
 
-class UserLoginForm(AuthenticationForm):
-    def __init__(self, *args, **kwargs):
-        super(UserLoginForm, self).__init__(*args, **kwargs)
-
-    username = forms.CharField(widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': '', 'id': 'username'}))
-    password = forms.CharField(widget=forms.PasswordInput(
-        attrs={'class': 'form-control', 'placeholder': '', 'id': 'password'}
-    ))
-
-
+# Register View
 def register(request):
     context = {}
     if request.method == 'POST':
@@ -101,11 +93,13 @@ def register(request):
 #         return super().form_valid(form)
 
 
+# Profile View
 class ProfileView(LoginRequiredMixin, generic.ListView):
     model = User
     template_name = 'customer_temp/profile-datail.html'
 
 
+# Update Information of User
 class UpdateInfo(LoginRequiredMixin, generic.UpdateView):
     model = User
     # fields = ['phone', 'first_name', 'last_name', 'email']
@@ -117,12 +111,14 @@ class UpdateInfo(LoginRequiredMixin, generic.UpdateView):
         return get_object_or_404(self.model, pk=self.request.user.pk)
 
 
+# Change Password View
 class MyPasswordChangeView(PasswordChangeView):
     form_class = MyPasswordChangeForm
     template_name = "customer_temp/change_password.html"
     success_url = reverse_lazy('customer:profile_detail')
 
 
+# Address Create View
 class AddressCreateView(LoginRequiredMixin, generic.FormView):
     form_class = AddressFrom
     template_name = 'customer_temp/address_create.html'

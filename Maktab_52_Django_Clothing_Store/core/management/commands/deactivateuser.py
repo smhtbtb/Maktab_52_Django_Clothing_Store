@@ -1,19 +1,19 @@
 from django.core.management import BaseCommand, CommandError
 from traitlets.config.loader import ArgumentParser
-
 from customer.models import User
 
 
 class Command(BaseCommand):
+    """
+    This command use for activate deactivate users
+    """
     help = "Deactivate activate users"
 
     def add_arguments(self, parser: ArgumentParser):
         parser.add_argument('deactivate_user', metavar="USER'S PHONE")
-        # parser.add_argument('deactivate_user', metavar="USER'S PHONE")
 
     def handle(self, *args, **options):
         deactivate_user_phone = options['deactivate_user']
-        # deactivate_user_phone = options['deactivate_user']
 
         if deactivate_user_phone:
             try:

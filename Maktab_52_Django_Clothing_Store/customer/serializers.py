@@ -1,10 +1,11 @@
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from customer.models import *
 
 
+# User Brief Serializer
 class UserBriefSerializer(serializers.ModelSerializer):
     addresses = serializers.HyperlinkedRelatedField(view_name='customer:address_detail', source='address_set',
                                                     many=True, read_only=True)
@@ -14,6 +15,7 @@ class UserBriefSerializer(serializers.ModelSerializer):
         fields = ['id', 'phone', 'first_name', 'last_name', 'addresses']
 
 
+# User Serializer
 class UserSerializer(serializers.ModelSerializer):
     addresses = serializers.HyperlinkedRelatedField(view_name='customer:address_detail', source='address_set',
                                                     many=True, read_only=True)
@@ -23,6 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
         exclude = ['password']
 
 
+# Address Brief Serializer
 class AddressBriefSerializer(serializers.ModelSerializer):
     owner = serializers.HyperlinkedRelatedField(view_name='customer:user_detail', read_only=True)
 
@@ -31,6 +34,7 @@ class AddressBriefSerializer(serializers.ModelSerializer):
         fields = ['id', 'city', 'owner']
 
 
+# Address Serializer
 class AddressSerializer(serializers.ModelSerializer):
     owner = serializers.HyperlinkedRelatedField(view_name='customer:user_detail', read_only=True)
 
@@ -40,9 +44,6 @@ class AddressSerializer(serializers.ModelSerializer):
 
 
 # Login Serializer
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
-
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     @classmethod

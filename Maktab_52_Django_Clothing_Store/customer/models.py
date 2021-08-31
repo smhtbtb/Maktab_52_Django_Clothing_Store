@@ -9,6 +9,10 @@ from core.models import BaseModel
 
 
 def phone_validator(val):
+    """
+    :param val: phone number str with 0 or +98
+    :return: True or False
+    """
     pattern = r"^(\+98|0)?9\d{9}$"
 
     if not re.match(pattern, val):
@@ -18,6 +22,10 @@ def phone_validator(val):
 
 
 def post_code(val):
+    """
+    :param val: post code str in 10 chars
+    :return: True or False
+    """
     pattern = r"^\d{10}$"
 
     if not re.match(pattern, val):
@@ -27,6 +35,9 @@ def post_code(val):
 
 
 class MyUserManager(UserManager):
+    """
+    User manager for changing the username field with phone in superuser
+    """
 
     def create_superuser(self, username=None, email=None, password=None, **extra_fields):
         username = extra_fields['phone']
@@ -43,6 +54,9 @@ class User(AbstractUser):
                                    help_text=_('If you have not invite code do not fill this field'))
 
     def save(self, *args, **kwargs):
+        """
+        overwrite save for fill the username field
+        """
         self.username = str(self.phone)
         super().save(*args, **kwargs)
 

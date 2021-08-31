@@ -5,15 +5,16 @@ from customer.models import User
 
 
 class Command(BaseCommand):
+    """
+    This command use for activate deactivate users
+    """
     help = "Activate deactivate users"
 
     def add_arguments(self, parser: ArgumentParser):
         parser.add_argument('activate_user', metavar="USER'S PHONE")
-        # parser.add_argument('deactivate_user', metavar="USER'S PHONE")
 
     def handle(self, *args, **options):
         activate_user_phone = options['activate_user']
-        # deactivate_user_phone = options['deactivate_user']
 
         if activate_user_phone:
             try:

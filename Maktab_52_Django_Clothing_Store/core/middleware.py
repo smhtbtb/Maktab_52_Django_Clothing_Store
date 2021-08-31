@@ -3,6 +3,9 @@ import logging
 
 
 class TimingMiddleware:
+    """
+    A middleware that will help you to find the time between request and response
+    """
 
     def __init__(self, get_response_func) -> None:
         self.get_response = get_response_func

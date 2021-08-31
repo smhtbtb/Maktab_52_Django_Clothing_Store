@@ -1,15 +1,28 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, UsernameField, PasswordChangeForm
-from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, UsernameField, PasswordChangeForm, \
+    AuthenticationForm
 from django.utils.translation import gettext_lazy as _
 
 from customer.models import *
 
 
+# First Login Form
 class LoginUser(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'password']
+
+
+# Second Login Form
+class UserLoginForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super(UserLoginForm, self).__init__(*args, **kwargs)
+
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': '', 'id': 'username'}))
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'form-control', 'placeholder': '', 'id': 'password'}
+    ))
 
 
 # class RegistrationForm(UserCreationForm):
@@ -27,7 +40,12 @@ class LoginUser(forms.ModelForm):
 #             'password2'
 #         )
 
+
+# Registration Form
 class RegistrationForm(UserCreationForm):
+    """
+    This form is for creating new user in database
+    """
     phone = forms.CharField(required=True, max_length=11, help_text=_('Required field. For example 09123456789'),
                             widget=forms.TextInput(
                                 attrs={
@@ -73,7 +91,12 @@ class RegistrationForm(UserCreationForm):
 #                   'email': forms.TextInput(attrs={'class': 'form-control'}),
 #         }
 
+# Update Information Of the User Form
 class UpdateInfoForm(forms.ModelForm):
+    """
+    Update user information
+    """
+
     class Meta:
         model = User
         fields = ['phone', 'first_name', 'last_name', 'email']
@@ -94,7 +117,12 @@ class UpdateInfoForm(forms.ModelForm):
     #         user_permissions.queryset = user_permissions.queryset.select_related('content_type')
 
 
+# Change Password Form
 class MyPasswordChangeForm(PasswordChangeForm):
+    """
+    Custom password change form of django
+    """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["old_password"].widget = forms.PasswordInput(attrs={"class": "form-control"})
@@ -102,7 +130,12 @@ class MyPasswordChangeForm(PasswordChangeForm):
         self.fields["new_password2"].widget = forms.PasswordInput(attrs={"class": "form-control"})
 
 
+# Address Form
 class AddressFrom(forms.ModelForm):
+    """
+    Form for add an address
+    """
+
     class Meta:
         model = Address
         fields = ['city', 'province', 'detail', 'post_code']

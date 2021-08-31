@@ -6,10 +6,10 @@ from customer.models import *
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['phone', 'first_name', 'last_name', 'username']
-    list_editable = ['username']
+    list_display = ['phone', 'first_name', 'last_name', 'is_active']
     list_display_links = ['phone']
-    search_fields = ['phone', 'username']
+    list_editable = ['is_active']
+    search_fields = ['phone']
 
 
 @admin.register(Address)
