@@ -12,6 +12,8 @@ urlpatterns = [
     path('men/', ProductMenView.as_view(), name='product_men_view'),
     path('women/', ProductWomenView.as_view(), name='product_women_view'),
     path('children/', ProductChildrenView.as_view(), name='product_children_view'),
+    path('search_result/', SearchView.as_view(), name='search_result'),
+
     path('product_card_view/<int:pk>', ProductCardView.as_view(), name='product_card_view'),
     path('product_detail/<int:pk>', ProductDetail.as_view(), name='product_detail'),
 

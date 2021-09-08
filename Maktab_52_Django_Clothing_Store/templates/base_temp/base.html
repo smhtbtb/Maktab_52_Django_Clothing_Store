@@ -76,8 +76,8 @@
                 <i class="fa fa-times"></i>
             </div>
 
-            <form action="#">
-                <input type="search" class="search-data" placeholder="Search" required>
+            <form action="{% url 'product:search_result' %}" method="get">
+                <input type="search" name="search" class="search-data" placeholder="Search" required>
                 <button type="submit"><i class="fa fa-search"></i></button>
             </form>
 

@@ -56,6 +56,22 @@ class ProductChildrenView(generic.TemplateView):
     }
 
 
+class SearchView(generic.ListView):
+    model = Product
+    template_name = 'product_temp/search.html'
+    context_object_name = 'search_results'
+
+    def get_queryset(self):
+        result = super(SearchView, self).get_queryset()
+        query = self.request.GET.get('search')
+        if query:
+            res = Product.objects.filter(name__contains=query)
+            result = res
+        else:
+            result = None
+        return result
+
+
 def scookie(request):
     response = HttpResponse('cookie')
     response.set_cookie('x', 'y')

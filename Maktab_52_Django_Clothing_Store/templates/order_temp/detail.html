@@ -15,7 +15,7 @@
 
         {% if order.orders.count %}
             <h3 class="my-4 border-bottom pb-1">{% trans 'Total Items: ' %} *<span
-                    id="total_items">{{ order.orders.count }}</span>*</h3>
+                    id="total_items">{{ order.total_items }}</span>*</h3>
             <center>
                 <table class="table table-bordered">
                     <thead>
