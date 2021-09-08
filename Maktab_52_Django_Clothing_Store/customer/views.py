@@ -16,7 +16,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
-from customer.forms import RegistrationForm, AddressFrom, UpdateInfoForm, MyPasswordChangeForm, UserLoginForm
+from customer.forms import RegistrationForm, AddressFrom, UpdateInfoForm, MyPasswordChangeForm, UserLoginForm, \
+    UpdateAddressForm
 from customer.permissions import *
 from customer.serializers import *
 
@@ -118,11 +119,22 @@ class MyPasswordChangeView(PasswordChangeView):
     success_url = reverse_lazy('customer:profile_detail')
 
 
+# Address List View
+class AddressListView(LoginRequiredMixin, generic.ListView):
+    model = Address
+    context_object_name = 'address_list'
+    template_name = 'customer_temp/address_list.html'
+
+    def get_queryset(self):
+        user = get_object_or_404(User, pk=self.request.user.pk)
+        return user.address_set.all()
+
+
 # Address Create View
 class AddressCreateView(LoginRequiredMixin, generic.FormView):
     form_class = AddressFrom
     template_name = 'customer_temp/address_create.html'
-    success_url = reverse_lazy('customer:address_create')
+    success_url = reverse_lazy('customer:address_list')
 
     def form_valid(self, form):
         address = form.save(commit=False)
@@ -130,6 +142,24 @@ class AddressCreateView(LoginRequiredMixin, generic.FormView):
         address.save()
         form.save()
         return super().form_valid(form)
+
+
+# Address Update View
+class AddressUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Address
+    form_class = UpdateAddressForm
+    template_name = 'customer_temp/update_address_form.html'
+    success_url = reverse_lazy('customer:address_list')
+
+    def get_queryset(self):
+        user = get_object_or_404(User, pk=self.request.user.pk)
+        return user.address_set.all()
+
+
+# Address Delete View
+class AddressDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Address
+    success_url = reverse_lazy('customer:address_list')
 
 
 # ______________________________________________________________________________

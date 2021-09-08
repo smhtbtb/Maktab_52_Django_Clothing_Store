@@ -80,17 +80,6 @@ class RegistrationForm(UserCreationForm):
         fields = ('phone', 'email', 'password1', 'password2')
 
 
-# class UpdateInfoForm(UserChangeForm):
-#     class Meta:
-#         model = User
-#         fields = ['phone', 'first_name', 'last_name', 'email']
-#         widgets = {
-#                   'phone': forms.TextInput(attrs={'class': 'form-control'}),
-#                   'first_name': forms.TextInput(attrs={'class': 'form-control'}),
-#                   'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-#                   'email': forms.TextInput(attrs={'class': 'form-control'}),
-#         }
-
 # Update Information Of the User Form
 class UpdateInfoForm(forms.ModelForm):
     """
@@ -106,15 +95,6 @@ class UpdateInfoForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.TextInput(attrs={'class': 'form-control'}),
         }
-
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     password = self.fields.get('password')
-    #     if password:
-    #         password.help_text = password.help_text.format('../password/')
-    #     user_permissions = self.fields.get('user_permissions')
-    #     if user_permissions:
-    #         user_permissions.queryset = user_permissions.queryset.select_related('content_type')
 
 
 # Change Password Form
@@ -144,4 +124,20 @@ class AddressFrom(forms.ModelForm):
             'province': forms.TextInput(attrs={"placeholder": _("Province 2"), 'class': 'form-control'}),
             'detail': forms.TextInput(attrs={"placeholder": _("Vakili Alley, Plaque 12"), 'class': 'form-control'}),
             'post_code': forms.TextInput(attrs={"placeholder": _("1234567890"), 'class': 'form-control'}),
+        }
+
+
+class UpdateAddressForm(forms.ModelForm):
+    """
+    Update address information
+    """
+
+    class Meta:
+        model = Address
+        fields = ['city', 'province', 'detail', 'post_code']
+        widgets = {
+            'city': forms.TextInput(attrs={'class': 'form-control'}),
+            'province': forms.TextInput(attrs={'class': 'form-control'}),
+            'detail': forms.TextInput(attrs={'class': 'form-control'}),
+            'post_code': forms.TextInput(attrs={'class': 'form-control'}),
         }

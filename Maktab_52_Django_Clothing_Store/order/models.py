@@ -48,6 +48,10 @@ class Order(BaseModel, TimestampMixin):
     def total_price(self):
         return sum(map(lambda o: o.item_price(), self.orders.all()))
 
+    # TODO
+    def total_items(self):
+        return sum(map(lambda o: o.number, self.orders.all()))
+
 
 class OrderItem(BaseModel, TimestampMixin):
     number = models.PositiveIntegerField(default=1)

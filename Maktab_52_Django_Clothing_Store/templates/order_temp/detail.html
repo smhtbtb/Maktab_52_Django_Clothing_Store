@@ -41,7 +41,7 @@
                             </td>
 
                             <td>
-                                <input type="number" name="qty" class="form-control-sm" value="{{ i.number }}"
+                                <input type="number" name="qty" readonly class="form-control-sm" value="{{ i.number }}"
                                        min="1" max="{{ i.product.leftovers }}" id="qty{{ forloop.counter0 }}"
                                        style="vertical-align: center;"/>
 
@@ -58,28 +58,47 @@
                             <td>{{ i.item_price }}</td>
 
                             <td>
-                                <form id="minus_form{{ forloop.counter0 }}" method="post">{% csrf_token %}
-                                    <input type="hidden" name="minus" value={{ i.product.id }}>
+                                {#                                <form id="minus_form{{ forloop.counter0 }}" method="post">{% csrf_token %}#}
+                                {#                                    <input type="hidden" name="minus" value={{ i.product.id }}>#}
+                                {#                                    <button style="border: none; color: red; margin: 10px; background-color: inherit"#}
+                                {#                                            id="minus_btn{{ forloop.counter0 }}"#}
+                                {#                                            type="button"><i class="fa fa-minus-square"></i></button>#}
+                                {#                                </form>#}
+                                <form action="{% url 'order:minus_product_qty' i.id %}" method="post"
+                                      style="display: inline">{% csrf_token %}
+                                    <input type="hidden" name="order-item-id" value={{ i.id }}>
                                     <button style="border: none; color: red; margin: 10px; background-color: inherit"
-                                            id="minus_btn{{ forloop.counter0 }}"
-                                            type="button"><i class="fa fa-minus-square"></i></button>
+                                            type="submit"><i class="fa fa-minus-square"></i></button>
                                 </form>
 
-                                <form id="plus_form{{ forloop.counter0 }}" method="post">{% csrf_token %}
-                                    <input type="hidden" name="plus" value={{ i.product.id }}>
+
+                                {#                                <form id="plus_form{{ forloop.counter0 }}" method="post">{% csrf_token %}#}
+                                {#                                    <input type="hidden" name="plus" value={{ i.product.id }}>#}
+                                {#                                    <button style="border: none; color: green; margin: 10px; background-color: inherit"#}
+                                {#                                            id="plus_btn{{ forloop.counter0 }}"#}
+                                {#                                            type="button"><i class="fa fa-plus-square"></i></button>#}
+                                {#                                </form>#}
+                                <form action="{% url 'order:plus_product_qty' i.id %}" method="post"
+                                      style="display: inline">{% csrf_token %}
+                                    <input type="hidden" name="order-item-id" value={{ i.id }}>
                                     <button style="border: none; color: green; margin: 10px; background-color: inherit"
-                                            id="plus_btn{{ forloop.counter0 }}"
-                                            type="button"><i class="fa fa-plus-square"></i></button>
+                                            type="submit"><i class="fa fa-plus-square"></i></button>
                                 </form>
                             </td>
 
                             <td>
-                                <form id="delete_form{{ forloop.counter0 }}" method="post">{% csrf_token %}
-                                    <input type="hidden" name="will_delete" value={{ i.product.id }}>
-                                    <button type="button" style="color: darkred; border: none; background-color: inherit;
-                                 font-style: italic; font-size: 1rem"
-                                            id="will_delete_btn{{ forloop.counter0 }}">{% trans 'Delete Product' %}
-                                    </button>
+                                {#                                <form id="delete_form{{ forloop.counter0 }}" method="post">{% csrf_token %}#}
+                                {#                                    <input type="hidden" name="will_delete" value={{ i.product.id }}>#}
+                                {#                                    <button type="button" style="color: darkred; border: none; background-color: inherit;#}
+                                {#                                 font-style: italic; font-size: 1rem"#}
+                                {#                                            id="will_delete_btn{{ forloop.counter0 }}">{% trans 'Delete Product' %}#}
+                                {#                                    </button>#}
+                                {#                                </form>#}
+                                <form action="{% url 'order:cart_delete' i.id %}" method="post"
+                                      style="display: inline">{% csrf_token %}
+                                    <input type="hidden" name="order-item-id" value={{ i.id }}>
+                                    <button style="border: none; color: red; margin: 10px; background-color: inherit"
+                                            type="submit"><i class="fa fa-trash"></i></button>
                                 </form>
                             </td>
 
@@ -141,7 +160,6 @@
         }
 
         let n = range(0, 100)
-
 
 
         {# delete #}

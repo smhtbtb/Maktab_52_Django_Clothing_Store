@@ -1,0 +1,101 @@
+{% extends 'customer_temp/base_dashboard.html' %}
+{% load i18n static %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" type="text/css" href="{% static "order_st/basket_cart.css" %}">
+{% endblock %}
+
+{% block dashboard %}
+    <main class="container my-4" id="cartList" style="border: 3px solid #26d63b; border-radius: 50px">
+        <center><h1 style="font-style: italic; color: #26d63b; margin-top: 20px">{% trans 'Address List' %}</h1>
+        </center>
+        <hr style="border: 1px solid #26d63b; color: #26d63b">
+        <!-- Featured Products -->
+
+        {% if address_list.count %}
+            {#            <h3 class="my-4 border-bottom pb-1">{% trans 'Total Addresses: ' %} *<span#}
+            {#                    id="total_items">{{ address_list.count }}</span>*</h3>#}
+            <center>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>{% trans 'City' %}</th>
+                        <th>{% trans 'Province' %}</th>
+                        <th>{% trans 'Detail' %}</th>
+                        <th>{% trans 'Post Code' %}</th>
+                        <th>{% trans 'Update Address' %}</th>
+                        <th>{% trans 'Delete Address' %}</th>
+                    </tr>
+                    </thead>
+
+
+                    <tbody id="tbody">
+                    {% for address in address_list %}
+                        <tr class="tr">
+
+                            <td>
+                                <p>{{ address.city }}</p>
+                            </td>
+
+                            <td>
+                                <p>{{ address.province }}</p>
+                            </td>
+
+                            <td>
+                                {% if address.detail %}
+                                    <p>{{ address.detail }}</p>
+                                {% else %}
+                                    <p>-</p>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if address.post_code %}
+                                    <p>{{ address.post_code }}</p>
+                                {% else %}
+                                    <p>-</p>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <a href="{% url 'customer:address_update' address.id %}"><i class="fa fa-edit"></i></a>
+                            </td>
+
+                            <td>
+                                <form action="{% url 'customer:address_delete' address.id %}" method="post"
+                                      style="display: inline">{% csrf_token %}
+                                    <input type="hidden" name="address-id" value={{ address.id }}>
+                                    <button style="border: none; color: red; margin: 10px; background-color: inherit"
+                                            type="submit"><i class="fa fa-trash"></i></button>
+                                </form>
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+
+                </table>
+
+            </center>
+            <a href="{% url 'customer:address_create' %}">
+                <button style="margin: 10px 10px 20px 20px;border: none;
+             color: rgba(6,172,26,0.83); border-bottom: 3px solid #26d63b;">{% trans 'Add New Address' %}</button>
+            </a>
+
+        {% else %}
+
+            <center>
+                <div><br>
+                    <h4>{% trans '" You have no address yet "' %}</h4><br>
+                    <a href="{% url 'customer:address_create' %}">
+                        <button style="margin: 10px 10px 20px 20px; float: right; border: none; font-size: 1rem;
+                        color: rgba(6,172,26,0.83); border-bottom: 3px solid #26d63b;">
+                            {% trans 'Create An Address' %}</button>
+                    </a>
+                </div>
+            </center>
+
+        {% endif %}
+
+    </main>
+{% endblock %}

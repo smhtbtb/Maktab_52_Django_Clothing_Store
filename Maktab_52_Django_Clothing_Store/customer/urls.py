@@ -13,7 +13,10 @@ urlpatterns = [
     path('profile_detail/', ProfileView.as_view(), name='profile_detail'),
     path('logout/', auth_views.LogoutView.as_view(template_name='customer_temp/logout.html'), name='logout'),
     path('register/', register, name='register'),
+    path('address_list/', AddressListView.as_view(), name='address_list'),
     path('address_create/', AddressCreateView.as_view(), name='address_create'),
+    path('address_update/<int:pk>', AddressUpdateView.as_view(), name='address_update'),
+    path('address_delete/<int:pk>', AddressDeleteView.as_view(), name='address_delete'),
     path('update_info/<int:pk>', UpdateInfo.as_view(), name='update_info'),
     path('change_password/', MyPasswordChangeView.as_view(), name='change_password'),
 

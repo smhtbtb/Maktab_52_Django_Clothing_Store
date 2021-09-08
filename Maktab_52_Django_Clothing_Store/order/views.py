@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse, HttpResponse
+from django.db.models import F
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 
 # Create your views here.
@@ -84,24 +85,78 @@ class CartList(LoginRequiredMixin, View):
         resp.set_cookie('cart', '')
         return resp
 
-    def post(self, request, *args, **kwargs):
-        resp = JsonResponse({'x': 'y'})
-        # print(request.POST['plus'])
+    # def post(self, request, *args, **kwargs):
+    #     resp = JsonResponse({'x': 'y'})
+    #     # print(request.POST['plus'])
+    #
+    #     # resp.set_cookie('delete', request.POST['will_delete'])
+    #     resp.set_cookie('plus', request.POST['plus'])
+    #     # resp.set_cookie('minus', request.POST['minus'])
+    #
+    #     # d = request.POST.get("will_delete")
+    #     # if d and d is not None:
+    #     #     resp.set_cookie('delete', d)
+    #     # p = request.POST.get('plus')
+    #     # if p and p is not None:
+    #     #     resp.set_cookie('plus', p)
+    #     # m = request.POST.get('minus')
+    #     # if m and m is not None:
+    #     #     resp.set_cookie('minus', m)
+    #     return resp
 
-        # resp.set_cookie('delete', request.POST['will_delete'])
-        resp.set_cookie('plus', request.POST['plus'])
-        # resp.set_cookie('minus', request.POST['minus'])
 
-        # d = request.POST.get("will_delete")
-        # if d and d is not None:
-        #     resp.set_cookie('delete', d)
-        # p = request.POST.get('plus')
-        # if p and p is not None:
-        #     resp.set_cookie('plus', p)
-        # m = request.POST.get('minus')
-        # if m and m is not None:
-        #     resp.set_cookie('minus', m)
-        return resp
+# Plus product qty
+def plus_product_qty(request, o_i_id):
+    # dictionary for initial data with
+    # field names as keys
+    context = {}
+
+    if request.method == 'GET':
+        return reverse_lazy('order:cart_list')
+
+    # fetch the object related to passed id
+    obj = get_object_or_404(OrderItem, id=o_i_id)
+
+    if request.method == "POST":
+        # delete object
+        if obj.number < obj.product.leftovers:
+            obj.number = F('number') + 1
+            obj.save()
+        # after deleting redirect to
+        # home page
+        return HttpResponseRedirect(reverse_lazy('order:cart_list'))
+
+    return render(request, "order_temp/detail.html", context)
+
+
+# Minus product qty
+def minus_product_qty(request, o_i_id):
+    # dictionary for initial data with
+    # field names as keys
+    context = {}
+
+    if request.method == 'GET':
+        return reverse_lazy('order:cart_list')
+
+    # fetch the object related to passed id
+    obj = get_object_or_404(OrderItem, id=o_i_id)
+
+    if request.method == "POST":
+        # delete object
+        if obj.number > 1:
+            obj.number = F('number') - 1
+            obj.save()
+        # after deleting redirect to
+        # home page
+        return HttpResponseRedirect(reverse_lazy('order:cart_list'))
+
+    return render(request, "order_temp/detail.html", context)
+
+
+# Delete from cart
+class DeleteCartItem(LoginRequiredMixin, generic.DeleteView):
+    model = OrderItem
+    success_url = reverse_lazy('order:cart_list')
 
 
 # Local Storage
