@@ -14,8 +14,8 @@
         <!-- Featured Products -->
 
         {% if order.orders.count %}
-            <h3 class="my-4 border-bottom pb-1">{% trans 'Total Items: ' %} *<span
-                    id="total_items">{{ order.total_items }}</span>*</h3>
+            <center><h3 class="my-4 border-bottom pb-1" style="font-weight: bold">{% trans 'Total Items: ' %} *<span
+                    id="total_items">{{ order.total_items }}</span>*</h3></center>
             <center>
                 <table class="table table-bordered">
                     <thead>
@@ -116,10 +116,45 @@
                     </tr>
                     </tfoot>
 
-
                 </table>
 
+
             </center>
+
+
+            <hr style="border: 1px solid #26d63b; color: #26d63b"><br>
+
+            <center><h3 style="font-weight: bold; margin-bottom: 10px">{% trans 'Choose your address' %}</h3>
+
+            {% if order.address %}
+                    <p>{% trans 'Your orders will send to : ' %} {{ order.address }}</p>
+{#                    <a href="#">{% trans 'Choose another address' %}</a><br>#}
+                    <form action="{% url 'order:delete_address_order' order.id %}" method="post"
+                          style="display: inline">{% csrf_token %}
+                            <input type="hidden" name="address-delete" value={{ order.id }}>
+                            <button style="padding-right: 5px; padding-left: 5px; border-color: #26d63b; border-radius: 10px; font: italic small-caps 15px/30px Georgia, serif; color: #26d63b; margin: 10px; background-color: inherit"
+                                        type="submit">{% trans 'Choose another address' %}</button><br>
+                    </form>
+
+
+                {% else %}
+                    {% if addresses %}
+                        {% for y in addresses %}
+                            <form action="{% url 'order:update_address' y.id %}" method="post"
+                                  style="display: inline">{% csrf_token %}
+                                    <input type="hidden" id="address{{ forloop.counter }}" name="address" value={{ y.id }}>
+                                    <label for="address{{ forloop.counter }}">{{ y.city }}-{{ y.province }}-{{ y.detail }}</label>
+                                    <button style="border: none; color: blue; margin: 10px; background-color: inherit"
+                                                type="submit"><i class="fa fa-check-square"></i></button><br>
+                            </form>
+                        {% endfor %}
+                    {% else %}
+                        <a href="{% url 'customer:address_create' %}">{% trans 'Add an address' %}</a>
+                    {% endif %}
+
+                {% endif %}</center>
+
+
             <a href="{% url 'landing_view' %}">
                 <button style="margin: 10px 10px 20px 20px;border: none;
              color: rgba(6,172,26,0.83); border-bottom: 3px solid #26d63b;">{% trans 'Continue Shopping' %}</button>
@@ -148,7 +183,7 @@
 
 
     <script>
-        console.log('hey')
+        console.log('go away')
 
         function range(start, end) {
             if (start === end) return [start]

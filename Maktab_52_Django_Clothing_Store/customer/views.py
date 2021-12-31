@@ -20,7 +20,8 @@ from customer.forms import RegistrationForm, AddressFrom, UpdateInfoForm, MyPass
     UpdateAddressForm
 from customer.permissions import *
 from customer.serializers import *
-
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.views import APIView
 
 # def login_page(request):
 #     if request.method == 'POST':
@@ -57,6 +58,9 @@ from customer.serializers import *
 
 
 # Login View
+from order.models import Order, OrderItem
+
+
 class MyLoginView(LoginView):
     template_name = "customer_temp/login.html"
     authentication_form = UserLoginForm
@@ -160,6 +164,36 @@ class AddressUpdateView(LoginRequiredMixin, generic.UpdateView):
 class AddressDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Address
     success_url = reverse_lazy('customer:address_list')
+
+
+class ShoppingHistory(LoginRequiredMixin, generic.ListView):
+    model = Order
+    context_object_name = 'order'
+    template_name = 'customer_temp/shopping_history.html'
+
+    def get_queryset(self):
+        user = get_object_or_404(User, pk=self.request.user.pk)
+        return Order.objects.filter(user=user, status='Ps')
+
+
+class ShoppingDetails(LoginRequiredMixin, generic.DetailView):
+    model = OrderItem
+    template_name = 'customer_temp/shopping_details.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = get_object_or_404(User, pk=self.request.user.pk)
+        order = Order.objects.filter(user=user, status='Ps', id=self.kwargs.get('pk'))
+        order_item = OrderItem.objects.filter(order__id__in=order)
+        context['orderitem'] = order_item
+        context['order'] = order.first()
+
+        return context
+
+
+# TODO: Last work :)
+class CheckOut(LoginRequiredMixin):
+    pass
 
 
 # ______________________________________________________________________________

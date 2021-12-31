@@ -19,6 +19,8 @@ urlpatterns = [
     path('address_delete/<int:pk>', AddressDeleteView.as_view(), name='address_delete'),
     path('update_info/<int:pk>', UpdateInfo.as_view(), name='update_info'),
     path('change_password/', MyPasswordChangeView.as_view(), name='change_password'),
+    path('shopping_history/', ShoppingHistory.as_view(), name='shopping_history'),
+    path('shopping_details/<int:pk>', ShoppingDetails.as_view(), name='shopping_details'),
 
 
     # API Views

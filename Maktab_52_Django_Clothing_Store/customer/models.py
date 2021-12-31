@@ -57,7 +57,7 @@ class User(AbstractUser):
         """
         overwrite save for fill the username field
         """
-        self.username = str(self.phone)
+        self.username = self.phone
         super().save(*args, **kwargs)
 
 

@@ -67,3 +67,6 @@ class OrderTest(TestCase):
 
     def test_total_items(self):
         self.assertEqual(self.order1.total_items(), 3)
+
+    # def test_total_price_of_item(self):
+    #     self.assertEqual(self.order1.total_cart_price, self.order1.total_price())

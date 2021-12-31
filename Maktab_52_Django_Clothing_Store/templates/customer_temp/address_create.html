@@ -15,7 +15,7 @@
                     <!-- Using the formset -->
                     {{ form.as_p }}
 
-                    <input type="button" id="btn" value="Submit" style="margin: 5px; border: none; padding: 5px;
+                    <input type="submit" id="btn" value="Submit" style="margin: 5px; border: none; padding: 5px;
              color: rgba(6,172,26,0.83); border-bottom: 3px solid #26d63b;">
                 </form>
             </div>
@@ -23,21 +23,21 @@
         </center>
     </div>
 
-    <script>
-        console.log('salam')
-        $('#btn').on('click', function () {
-            $.ajax({
-                'url': "{% url 'customer:address_create' %}",
-                'type': "post",
-                'data': $('#form').serialize(),
-                success: function (resp, stat) {
-                    console.log(stat)
-                    console.log(resp)
-                    alert('Address added successfully')
-                }
-            })
-        })
-    </script>
+{#    <script>#}
+{#        console.log('salam')#}
+{#        $('#btn').on('click', function () {#}
+{#            $.ajax({#}
+{#                'url': "{% url 'customer:address_create' %}",#}
+{#                'type': "post",#}
+{#                'data': $('#form').serialize(),#}
+{#                success: function (resp, stat) {#}
+{#                    console.log(stat)#}
+{#                    console.log(resp)#}
+{#                    alert('Address added successfully')#}
+{#                }#}
+{#            })#}
+{#        })#}
+{#    </script>#}
 
 
 {% endblock %}

@@ -1,9 +1,11 @@
 {% load i18n static %}
+
 <!DOCTYPE html>
 {% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
 <html lang="{{ LANGUAGE_CODE|default:"en-us" }}" dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr,auto' }}">
 
 <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>{% trans 'Clothing Store' %} | {% block title %}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static "core_st/bootstrap.min.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "core_st/base.css" %}">
@@ -61,7 +63,7 @@
                     </ul>
                 </li>
                 <li><a href="#">{% trans 'About' %}</a></li>
-                <li><a href="#">{% trans 'Contact' %}</a></li>
+                <li><a href="#">{% trans 'Contact Me' %} :)</a></li>
                 {% if not user.phone %}<li><a href="{% url 'customer:login' %}">{% trans 'Login' %}</a></li>
                 {% else %}<li><a href="{% url 'customer:profile_detail' %}">{{ user.phone }}|{% trans 'Profile' %}</a></li>
                 {% endif %}

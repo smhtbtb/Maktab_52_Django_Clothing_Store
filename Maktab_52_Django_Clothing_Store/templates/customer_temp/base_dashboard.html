@@ -18,7 +18,7 @@
                     <li><a href="{% url 'customer:update_info' user.id %}">{% trans 'Update Info' %}</a></li>
                     <li><a href="{% url 'customer:change_password' %}">{% trans 'Change Password' %}</a></li>
                     <li><a href="{% url 'customer:address_list' %}">{% trans 'Addresses' %}</a></li>
-                    <li><a href="#">{% trans 'Shopping History' %}</a></li>
+                    <li><a href="{% url 'customer:shopping_history' %}">{% trans 'Shopping History' %}</a></li>
                     <li><a href="{% url 'customer:logout' %}">{% trans 'Logout' %}</a></li>
 
                 </div>

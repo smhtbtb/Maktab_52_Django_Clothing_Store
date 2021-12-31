@@ -1,0 +1,71 @@
+{% extends 'customer_temp/base_dashboard.html' %}
+{% load i18n static %}
+{% load jalali_tags %}
+
+{% block title %}{% trans 'Shopping History' %}{% endblock %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" type="text/css" href="{% static "order_st/basket_cart.css" %}">
+{% endblock %}
+
+{% block dashboard %}
+    <main class="container my-4" id="cartList" style="border: 3px solid #26d63b; border-radius: 50px">
+        <center><h1 style="font-style: italic; color: #26d63b; margin-top: 20px">{% trans 'Shopping Details' %}</h1>
+        </center>
+        <hr style="border: 1px solid #26d63b; color: #26d63b">
+        <!-- Featured Products -->
+
+        {% if orderitem.count %}
+            <center>
+            <p>{{ order.modify_timestamp|to_jalali:'%Y/%m/%d _ %H:%M:%S' }}</p>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>{% trans 'Product' %}</th>
+                        <th>{% trans 'Qty' %}</th>
+                        <th>{% trans 'Price' %}</th>
+                        <th>{% trans 'Total' %}</th>
+                    </tr>
+                    </thead>
+
+
+                    <tbody id="tbody">
+                    {% for o in orderitem %}
+                        <tr class="tr">
+
+                            <td>
+                                <a href="{% url 'product:product_detail' o.product.id %}"><img
+                                        src="{{ o.product.image.url }}" width="80" height="80"
+                                        alt="{{ o.product.name }}"/></a>
+                            </td>
+
+                            <td>
+                                <p name="qty" id="qty{{ forloop.counter0 }}"
+                                   style="vertical-align: center;">{{ o.number }}</p>
+                            </td>
+
+                            <td>{{ o.product.final_price }}</td>
+
+                            <td>{{ o.item_price }}</td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+
+                    <tfoot>
+                    <tr>
+                        <td colspan="2"></td>
+                        <th>{% trans 'Total Amount' %}</th>
+                        <th style="border: 2px solid #26d63b; color: #008912"
+                            id="total_amt">{{ order.total_price }}<span
+                                style="font-size: 0.9rem; color: rgba(21,21,21,0.86)">{% trans ' Toomaan' %}</span></th>
+                    </tr>
+                    </tfoot>
+
+                </table>
+
+            </center>
+        {% endif %}
+
+    </main>
+{% endblock %}
