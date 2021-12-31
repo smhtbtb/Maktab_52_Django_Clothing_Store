@@ -63,7 +63,7 @@
                     </ul>
                 </li>
                 <li><a href="#">{% trans 'About' %}</a></li>
-                <li><a href="#">{% trans 'Contact Me' %} :)</a></li>
+                <li><a href="{% url 'contact:contact' %}">{% trans 'Contact Me' %} :)</a></li>
                 {% if not user.phone %}<li><a href="{% url 'customer:login' %}">{% trans 'Login' %}</a></li>
                 {% else %}<li><a href="{% url 'customer:profile_detail' %}">{{ user.phone }}|{% trans 'Profile' %}</a></li>
                 {% endif %}

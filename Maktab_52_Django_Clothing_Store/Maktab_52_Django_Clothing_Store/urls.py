@@ -30,6 +30,8 @@ urlpatterns = [
     # path('accounts/', include('django.contrib.auth.urls')),
     path('product/', include('product.urls')),
     path('order/', include('order.urls')),
+    path('contact/', include('contact.urls')),
+    path('captcha/', include('captcha.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # if settings.DEBUG:

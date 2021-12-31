@@ -45,12 +45,14 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
 
     'jalali_date',
+    'captcha',
 
     'core',
     'landing',
     'order',
     'product',
     'customer',
+    'contact',
 
 ]
 
@@ -186,6 +188,19 @@ LOGIN_URL = 'customer:login'
 LOGIN_REDIRECT_URL = 'customer:profile_detail'
 
 AUTH_USER_MODEL = 'customer.User'
+
+CONTACT_EMAIL = 'mohammad.h.tabatabaei78@gmail.com'
+# ADMIN_EMAILS = ['admin@example.com', ]
+
+EMAIL_BACKEND = "anymail.backends.sendinblue.EmailBackend"
+# ANYMAIL = {
+#     "SENDINBLUE_API_KEY": "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",
+# }
+EMAIL_HOST = "anymail.backends.sendinblue.EmailBackend"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = "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"
 
 
 def length_limit(record: LogRecord) -> bool:

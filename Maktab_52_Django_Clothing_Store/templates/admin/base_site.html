@@ -11,10 +11,15 @@
 {% block extrahead %}{{ block.super }}
     <style>
         :root{
-            --primary: rgba(0, 144, 18, 0.77);
+            --primary: rgba(0, 144, 18, 0.77) !important;
             --header-bg: #1e232b;
-            --accent: #26d63b;
-            --header-color: #26d63b;
+            --accent: #26d63b !important;
+            --header-color: #26d63b !important;
+            {#--body-quiet-color: #000000;#}
+            --hairline-color: #ffffff;
+            --darkened-bg: rgba(118, 107, 107, 0.82);
+            {#--body-fg: #000000;#}
+            --link-fg: #299cf6;
         }
 
         @font-face {
@@ -24,7 +29,7 @@
             font-weight: normal;
         }
         body{
-            background-color: rgba(245, 222, 179, 0.57);
+            background-color: rgba(23, 99, 0, 0.36);
             font-family: 'BYekan', normal, serif;
 
         }
