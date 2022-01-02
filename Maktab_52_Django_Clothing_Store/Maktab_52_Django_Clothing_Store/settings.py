@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-dw6ztv7%%h_w0zq2m-^ljbe2@6@417p56x457kcr+gxbye6(w-'
+SECRET_KEY = ''
 # SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -189,18 +189,15 @@ LOGIN_REDIRECT_URL = 'customer:profile_detail'
 
 AUTH_USER_MODEL = 'customer.User'
 
-CONTACT_EMAIL = 'mohammad.h.tabatabaei78@gmail.com'
+# CONTACT_EMAIL = 'mohammad.h.tabatabaei78@gmail.com'
 # ADMIN_EMAILS = ['admin@example.com', ]
 
-EMAIL_BACKEND = "anymail.backends.sendinblue.EmailBackend"
-# ANYMAIL = {
-#     "SENDINBLUE_API_KEY": "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",
-# }
-EMAIL_HOST = "anymail.backends.sendinblue.EmailBackend"
-EMAIL_PORT = 587
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'apikey'
-EMAIL_HOST_PASSWORD = "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"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'mohammad.h.tabatabaei78@gmail.com'
+EMAIL_HOST_PASSWORD = ''
 
 
 def length_limit(record: LogRecord) -> bool:
