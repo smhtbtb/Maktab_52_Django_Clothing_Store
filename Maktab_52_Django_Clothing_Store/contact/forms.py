@@ -19,4 +19,5 @@ class ContactForm(forms.ModelForm):
             'subject': forms.TextInput(attrs={"placeholder": _("The subject"), 'class': 'form-control'}),
             'message': forms.Textarea(
                 attrs={"placeholder": _("Write your message"), 'class': 'form-control', 'cols': "30", 'rows': "10"}),
+            'captcha': forms.TextInput(attrs={"placeholder": _("Captcha"), 'class': 'form-control'}),
         }

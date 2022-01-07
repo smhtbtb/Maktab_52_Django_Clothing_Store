@@ -8,13 +8,49 @@
         <center>
             <div class="col-3"></div>
             <div class="col-6">
-                <form method="POST" id="form" enctype="multipart/form-data" class="form-control"  style="background-color: rgba(0,0,0,0.21)">
+                <form method="POST" id="form" enctype="multipart/form-data" class="form-control"
+                      style="background-color: rgba(0,0,0,0.21)">
 
                     <!-- Security token -->
                     {% csrf_token %}
 
                     <!-- Using the formset -->
-                    {{ form.as_p }}
+                    <div class="form-group">
+                        <label for="{{ form.email.id_for_label }}">{% trans 'Email' %}</label>
+                        {{ form.email }}
+                        <li style="font-size: 12px; color: red; list-style: none;">{{ form.email.errors }}</li>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="{{ form.subject.id_for_label }}">{% trans 'Subject' %}</label>
+                        {{ form.subject }}
+                        <li style="font-size: 12px; color: red; list-style: none;">{{ form.subject.errors }}</li>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="{{ form.message.id_for_label }}">{% trans 'Message' %}</label>
+                        {{ form.message }}
+                        <li style="font-size: 12px; color: red; list-style: none;">{{ form.message.errors }}</li>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="{{ form.captcha.id_for_label }}">{% trans 'Captcha' %}</label>
+                        {{ form.captcha }}
+                        <button class='js-captcha-refresh' style="border: none; background-color: inherit; color: rgba(6,172,26,0.83)">
+                            <i class="fa fa-refresh" style="font-size:20px"></i>
+                        </button>
+                        <li style="font-size: 12px; color: red; list-style: none;">{{ form.captcha.error_messages }}</li>
+                    </div>
+
+                    {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <br><div class="alert alert-danger">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endif %}
 
                     <input type="submit" id="btn" value="Submit" style="margin: 5px; border: none; padding: 5px;
              color: rgba(6,172,26,0.83); border-bottom: 3px solid #26d63b;">
@@ -23,4 +59,15 @@
             <div class="col-3"></div>
         </center>
     </div>
+{% endblock %}
+
+{% block extrascript %}
+<script>
+    $('.js-captcha-refresh').click(function(){
+    $.getJSON("/captcha/refresh/", function (result) {
+        $('.captcha').attr('src', result['image_url']);
+        $('#id_captcha_0').val(result['key'])
+    });
+});
+</script>
 {% endblock %}

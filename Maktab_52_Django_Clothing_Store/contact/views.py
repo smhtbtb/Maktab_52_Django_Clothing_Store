@@ -19,8 +19,10 @@ def contact_view(request):
             form.save()
             email_subject = f'New contact {form.cleaned_data["email"]}: {form.cleaned_data["subject"]}'
             email_message = form.cleaned_data['message']
-            send_mail(email_subject, email_message, settings.EMAIL_HOST_USER, ['mohammad.h_78@yahoo.com', ''])
+            send_mail(email_subject, email_message, settings.EMAIL_HOST_USER, ['mohammad.h_78@yahoo.com', ])
             return render(request, 'contact_temp/success.html')
+        else:
+            return render(request, 'contact_temp/contact.html', {'form': form, })
     form = ContactForm()
     context = {'form': form}
     return render(request, 'contact_temp/contact.html', context)
